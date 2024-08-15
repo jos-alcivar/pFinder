@@ -1,0 +1,33 @@
+.input-text {
+  display: flex;
+  width: 24.875rem;
+  height: 2rem;
+  padding: var(--space-zero, 0rem) var(--space-medium, 0.75rem);
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+
+  border-radius: 0.5rem;
+  border: var(--border-width-medium, 1px) solid var(--neutral-60, #606060);
+
+  color: var(--onText-neutralDark, #fff);
+  /* medium/primary/base */
+  font-family: var(--font-family-primary, Consolas);
+  font-size: var(--font-size-mobile-medium, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%; /* 1.75rem */
+}
+
+.input-text::placeholder {
+  font-style: italic;
+}
+
+.input-text.active {
+  outline-color: var(--primary-60, #ff800b);
+}
+
+.input-text.disabled {
+  background: var(--neutral-60, #606060);
+  cursor: not-allowed;
+}

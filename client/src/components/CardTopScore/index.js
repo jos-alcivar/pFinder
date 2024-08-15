@@ -1,0 +1,1 @@
+export { CardTopScore } from "./CardTopScore";

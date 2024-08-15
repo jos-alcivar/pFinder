@@ -1,0 +1,85 @@
+.optionCircle {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  padding: var(--space-xxs, 0.25rem);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-medium, 0.75rem);
+  flex-shrink: 0;
+
+  border-radius: var(--radii-xxl, 4rem);
+}
+
+.optionCircle .text-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  color: var(--onText-neutralDark, #fff);
+  text-align: center;
+  /* small/primary/base */
+  font-family: var(--font-family-primary, Consolas);
+  font-size: var(--font-size-mobile-small, 0.8rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.optionCircle.default {
+  border: var(--border-width-medium, 1px) solid var(--neutral-60, #606060);
+  animation: hoverToDefault 300ms ease-out forwards;
+}
+
+.optionCircle.hover {
+  border: var(--border-width-medium, 1px) solid var(--neutral-30, #b3b3b3);
+  animation: defaultToHover 300ms ease-out forwards;
+}
+
+.optionCircle.clicked-default {
+  animation: hoverToClicked 300ms ease-out forwards;
+}
+
+.optionCircle.clicked-hover {
+  animation: clickedToHover 300ms ease-out forwards;
+}
+
+@keyframes defaultToHover {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  100% {
+    background-color: var(--neutral-70, #444);
+  }
+}
+
+@keyframes hoverToDefault {
+  0% {
+    background-color: var(--neutral-70, #444);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes clickedToHover {
+  0% {
+    background-color: var(--primary-60, #ff800b);
+  }
+  100% {
+    background-color: var(--primary-50, #ff910b);
+  }
+}
+
+@keyframes hoverToClicked {
+  0% {
+    background-color: var(--primary-50, #ff910b);
+  }
+  100% {
+    background-color: var(--primary-60, #ff800b);
+  }
+}

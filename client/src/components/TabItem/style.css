@@ -1,0 +1,81 @@
+.button {
+  display: flex;
+  width: 4.625rem;
+  height: 2rem;
+  min-width: 2rem;
+  padding: var(--space-small, 0.5rem);
+  align-items: center;
+  gap: var(--space-small, 0.5rem);
+  flex-shrink: 0;
+
+  border-radius: var(--radii-medium, 0.5rem);
+}
+
+.button .text-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  color: var(--onText-neutralDark, #fff);
+  text-align: center;
+  /* medium/primary/base */
+  font-family: var(--font-family-primary, Consolas);
+  font-size: var(--font-size-mobile-medium, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%; /* 1.75rem */
+}
+
+.button.default.primary {
+  animation: primaryToDefault 300ms ease-out forwards;
+}
+
+.button.hover.primary {
+  animation: primaryToHover 300ms ease-out forwards;
+}
+
+.button.default.secondary {
+  animation: secondaryToHover 300ms ease-out forwards;
+}
+
+.button.hover.secondary {
+  animation: secondaryToDefault 300ms ease-out forwards;
+}
+
+@keyframes secondaryToHover {
+  0% {
+    background-color: var(--neutral-70, #444);
+  }
+  100% {
+    background-color: var(--neutral-60, #606060);
+  }
+}
+
+@keyframes secondaryToDefault {
+  0% {
+    background-color: var(--neutral-60, #606060);
+  }
+  100% {
+    background-color: var(--neutral-70, #444);
+  }
+}
+
+@keyframes primaryToHover {
+  0% {
+    background-color: var(--primary-60, #ff800b);
+  }
+  100% {
+    background-color: var(--primary-50, #ff910b);
+  }
+}
+
+@keyframes primaryToDefault {
+  0% {
+    background-color: var(--primary-50, #ff910b);
+  }
+  100% {
+    background-color: var(--primary-60, #ff800b);
+  }
+}

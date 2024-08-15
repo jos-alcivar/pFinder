@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900.04">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #000;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        stroke-width: 20px;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke: #000;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        stroke-width: 40px;
+      }
+
+      .cls-4 {
+        stroke-width: 5px;
+      }
+
+      .cls-5 {
+        stroke: #999;
+        stroke-width: 4px;
+      }
+    </style>
+  </defs>
+  <g id="grid">
+    <line class="cls-5" x1="73.19" x2="73.19" y2="900"/>
+    <line class="cls-5" x1="900" y1="68.54" y2="68.54"/>
+    <line class="cls-5" x1="289.47" y1="449.54" y2="449.54"/>
+    <line class="cls-5" x1="900" y1="449.54" x2="608.53" y2="449.54"/>
+    <line class="cls-5" x1="900" y1="825.54" y2="825.54"/>
+    <line class="cls-5" x1="449.5" y1="900.04" x2="449.5" y2="645.86"/>
+    <line class="cls-5" x1="449.5" y1="319.96" x2="449.5" y2=".04"/>
+    <line class="cls-5" x1="824.5" y1=".04" x2="824.5" y2="900.04"/>
+  </g>
+  <g id="vertex">
+    <circle class="cls-1" cx="73.19" cy="74.24" r="23.49"/>
+    <circle class="cls-1" cx="449" cy="74.24" r="23.49"/>
+    <circle class="cls-1" cx="449" cy="825.85" r="23.49"/>
+    <circle class="cls-1" cx="824.81" cy="450.04" r="23.49"/>
+    <circle class="cls-1" cx="824.81" cy="825.85" r="23.49"/>
+    <circle class="cls-1" cx="73.19" cy="450.04" r="23.49"/>
+    <circle class="cls-1" cx="73.19" cy="825.85" r="23.49"/>
+    <circle class="cls-1" cx="824.81" cy="74.24" r="23.49"/>
+  </g>
+  <g id="person">
+    <circle class="cls-1" cx="449" cy="444.35" r="38.17"/>
+    <path class="cls-1" d="M509.82,547.85h-121.64c6.33-27.75,31.15-48.44,60.82-48.44s54.49,20.7,60.82,48.44Z"/>
+  </g>
+  <g id="lupe">
+    <line id="handle" class="cls-3" x1="572.24" y1="612.86" x2="669.41" y2="695.65"/>
+    <path id="inner" class="cls-4" d="M449.5,634.12h-.5c-83.51,0-151.2-67.7-151.2-151.21,0-11.47,1.28-22.63,3.7-33.37,15.19-67.45,75.46-117.83,147.5-117.83h.5c71.82.23,131.85,50.53,147,117.83,2.42,10.74,3.7,21.9,3.7,33.37,0,83.34-67.42,150.94-150.7,151.21Z"/>
+    <path id="outter" class="cls-2" d="M617.26,447.72c-16.21-77.87-85.12-136.42-167.74-136.67h-.53c-82.85,0-152.02,58.63-168.26,136.67-2.36,11.36-3.61,23.13-3.61,35.2,0,94.93,76.95,171.87,171.87,171.87h.53c94.67-.28,171.34-77.12,171.34-171.87,0-12.07-1.24-23.84-3.61-35.2Z"/>
+  </g>
+</svg>
