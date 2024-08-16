@@ -1,29 +1,30 @@
 import PropTypes from "prop-types";
 import { useReducer } from "react";
 import "./style.css";
-import { IconPieChart } from "icons";
+import CustomIcons from "../CustomIcons/CustomIcons";
 
-export const TabItem = ({ label, status, type }) => {
+export const TabItem = ({ label, status }) => {
   const [state, dispatch] = useReducer(reducer, {
-    label: label || "default",
+    label: label || "",
     status: status || "default",
-    type: type || "primary",
   });
 
   return (
-    <div
-      className={`button ${state.status} ${state.type}`}
-      onMouseLeave={() => {
-        dispatch("mouse_leave");
-      }}
-      onMouseEnter={() => {
-        dispatch("mouse_enter");
-      }}
-    >
-      <div className="text-button">
+    <div className="buttonTab-ctn">
+      <div
+        className={`buttonTab`}
+        onMouseLeave={() => {
+          dispatch("mouse_leave");
+        }}
+        onMouseEnter={() => {
+          dispatch("mouse_enter");
+        }}
+      >
+        <CustomIcons className={`${state.status}`} label={state.label} />
+      </div>
+      <div className={`text-button ${state.status}`}>
         <>{state.label}</>
       </div>
-      <IconPieChart size="24" />
     </div>
   );
 };
@@ -47,7 +48,6 @@ function reducer(state, action) {
 }
 
 TabItem.propTypes = {
-  label: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(["hover", "default"]),
-  type: PropTypes.oneOf(["primary", "secondary"]),
+  label: PropTypes.string,
+  status: PropTypes.oneOf(["hover", "default", "disabled"]),
 };

@@ -8,6 +8,7 @@ import { InputItem } from "./components/InputItem";
 
 import { Option } from "./components/Option";
 import { OptionCircle } from "./components/OptionCircle";
+import { TabItem } from "./components/TabItem/TabItem";
 
 function App() {
   return (
@@ -27,6 +28,12 @@ function App() {
         />
         <CardTopScore />
         <DropdownWithCheckboxes />
+        <div>
+          <TabItem label="posts" />
+          <TabItem label="reports" />
+          <TabItem label="jobs" />
+          <TabItem label="account" />
+        </div>
       </div>
     </>
   );

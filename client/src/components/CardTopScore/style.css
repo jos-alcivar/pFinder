@@ -19,7 +19,7 @@
 .card-heading {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
+  gap: var(--space-medium, 12px);
   align-self: stretch;
 }
 

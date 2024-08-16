@@ -1,81 +1,56 @@
-.button {
-  display: flex;
-  width: 4.625rem;
-  height: 2rem;
-  min-width: 2rem;
-  padding: var(--space-small, 0.5rem);
+.buttonTab-ctn {
+  display: inline-flex;
+  height: 48px;
+  padding: var(--space-xxs, 4px) 0px;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-small, 0.5rem);
+  gap: var(--space-xxs, 4px);
   flex-shrink: 0;
-
-  border-radius: var(--radii-medium, 0.5rem);
 }
 
-.button .text-button {
+.buttonTab-ctn .buttonTab {
   display: flex;
-  flex-direction: column;
+  width: var(--space-xxxxl, 40px);
   justify-content: center;
-  flex: 1 0 0;
-  align-self: stretch;
+  align-items: center;
+  border-radius: var(--radii-medium, 8px);
+}
 
+.buttonTab-ctn .text-button {
   color: var(--onText-neutralDark, #fff);
   text-align: center;
-  /* medium/primary/base */
+
+  /* small/primary/base */
   font-family: var(--font-family-primary, Consolas);
-  font-size: var(--font-size-mobile-medium, 1rem);
+  font-size: var(--font-size-mobile-small, 12.8px);
   font-style: normal;
   font-weight: 400;
-  line-height: 175%; /* 1.75rem */
+  line-height: normal;
+  text-transform: capitalize;
 }
 
-.button.default.primary {
+.buttonTab-ctn .text-button.default {
   animation: primaryToDefault 300ms ease-out forwards;
 }
 
-.button.hover.primary {
+.buttonTab-ctn .text-button.hover {
   animation: primaryToHover 300ms ease-out forwards;
-}
-
-.button.default.secondary {
-  animation: secondaryToHover 300ms ease-out forwards;
-}
-
-.button.hover.secondary {
-  animation: secondaryToDefault 300ms ease-out forwards;
-}
-
-@keyframes secondaryToHover {
-  0% {
-    background-color: var(--neutral-70, #444);
-  }
-  100% {
-    background-color: var(--neutral-60, #606060);
-  }
-}
-
-@keyframes secondaryToDefault {
-  0% {
-    background-color: var(--neutral-60, #606060);
-  }
-  100% {
-    background-color: var(--neutral-70, #444);
-  }
 }
 
 @keyframes primaryToHover {
   0% {
-    background-color: var(--primary-60, #ff800b);
+    color: var(--onText-neutralDark, #fff);
   }
   100% {
-    background-color: var(--primary-50, #ff910b);
+    color: var(--primary-50, #ff910b);
   }
 }
 
 @keyframes primaryToDefault {
   0% {
-    background-color: var(--primary-50, #ff910b);
+    color: var(--primary-50, #ff910b);
   }
   100% {
-    background-color: var(--primary-60, #ff800b);
+    color: var(--onText-neutralDark, #fff);
   }
 }

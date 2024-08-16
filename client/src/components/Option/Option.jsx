@@ -65,6 +65,6 @@ function reducer(state, action) {
 }
 
 Option.propTypes = {
-  label: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  status: PropTypes.string,
 };

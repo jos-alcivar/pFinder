@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useReducer } from "react";
+import NextIcon from "../../assets/icons/next.svg";
 import "./style.css";
 
 export const CardTopScore = ({ heading, filter, item, value, status }) => {
@@ -23,6 +24,7 @@ export const CardTopScore = ({ heading, filter, item, value, status }) => {
     >
       <div className="card-heading">
         <div className={`heading-text ${state.status}`}>{state.heading}</div>
+        <img src={NextIcon} alt="next arrow" />
       </div>
       <div className="card-label ">
         <div className="filter-text">{state.filter}</div>

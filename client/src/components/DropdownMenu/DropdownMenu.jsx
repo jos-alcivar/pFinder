@@ -56,7 +56,7 @@ const DropdownMenu = () => {
           <div className="search-ctn">
             <div className="search-bar">
               <input
-                type="text"
+                type="search"
                 className="search-text"
                 placeholder="By Filter name"
               />
