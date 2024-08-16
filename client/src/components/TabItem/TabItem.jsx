@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useReducer } from "react";
 import "./style.css";
-import CustomIcons from "../CustomIcons/CustomIcons";
+import CustomIconLoader from "../CustomIconLoader/CustomIconLoader";
 
 export const TabItem = ({ label, status }) => {
   const [state, dispatch] = useReducer(reducer, {
@@ -10,17 +10,32 @@ export const TabItem = ({ label, status }) => {
   });
 
   return (
-    <div className="buttonTab-ctn">
+    <div className={`buttonTab-ctn ${state.status}`}>
       <div
-        className={`buttonTab`}
+        className={`buttonTab ${state.label} ${state.status}`}
         onMouseLeave={() => {
-          dispatch("mouse_leave");
+          if (state.status !== "disabled") {
+            state.status === "clicked" || state.status === "clicked-hover"
+              ? dispatch("mouse_click")
+              : dispatch("mouse_leave");
+          }
         }}
         onMouseEnter={() => {
-          dispatch("mouse_enter");
+          if (state.status !== "disabled") {
+            state.status === "clicked"
+              ? dispatch("mouse_click_enter")
+              : dispatch("mouse_enter");
+          }
+        }}
+        onClick={() => {
+          if (state.status !== "disabled") {
+            state.status === "clicked" || state.status === "clicked-hover"
+              ? dispatch("mouse_leave")
+              : dispatch("mouse_click");
+          }
         }}
       >
-        <CustomIcons className={`${state.status}`} label={state.label} />
+        <CustomIconLoader label={state.label} size="20px" />
       </div>
       <div className={`text-button ${state.status}`}>
         <>{state.label}</>
@@ -42,6 +57,17 @@ function reducer(state, action) {
         ...state,
         status: "default",
       };
+    case "mouse_click":
+      return {
+        ...state,
+        status: "clicked",
+      };
+
+    case "mouse_click_enter":
+      return {
+        ...state,
+        status: "clicked-hover",
+      };
   }
 
   return state;
@@ -49,5 +75,5 @@ function reducer(state, action) {
 
 TabItem.propTypes = {
   label: PropTypes.string,
-  status: PropTypes.oneOf(["hover", "default", "disabled"]),
+  status: PropTypes.oneOf(["hover", "default", "clicked", "disabled"]),
 };

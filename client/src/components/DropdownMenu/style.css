@@ -95,6 +95,7 @@
   flex-shrink: 0;
 }
 
+/*      CUSTOM CHECKBOX        */
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -129,6 +130,7 @@ input[type="checkbox"]:checked::after {
   display: block;
 }
 
+/*      INPUT TEXT        */
 .option-item .input-txt {
   display: flex;
   width: 10.625rem;

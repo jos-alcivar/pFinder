@@ -8,6 +8,7 @@
   flex-shrink: 0;
 }
 
+/* --- BUTTONS --- */
 .buttonTab-ctn .buttonTab {
   display: flex;
   width: var(--space-xxxxl, 40px);
@@ -16,6 +17,50 @@
   border-radius: var(--radii-medium, 8px);
 }
 
+/* BUTTONS ANIMATED STATES */
+.buttonTab.hover path {
+  stroke: var(--primary-50, #ff910b);
+}
+
+.buttonTab.clicked path {
+  stroke: var(--primary-60, #ff800b);
+}
+
+.buttonTab.clicked-hover path {
+  stroke: var(--primary-60, #ff800b);
+}
+
+.buttonTab.disabled path {
+  fill: var(--neutral-60, #606060);
+  cursor: none;
+}
+
+.account.default path {
+  stroke: none;
+  fill: var(--onText-neutralDark, #fff);
+}
+
+.account.hover path {
+  stroke: none;
+  fill: var(--primary-60, #ff800b);
+}
+
+.account.clicked path {
+  stroke: none;
+  fill: var(--primary-60, #ff800b);
+}
+
+.account.clicked-hover path {
+  stroke: none;
+  fill: var(--primary-60, #ff800b);
+}
+
+.account.disabled path {
+  stroke: var(--neutral-60, #606060);
+  cursor: none;
+}
+
+/* --- TEXT --- */
 .buttonTab-ctn .text-button {
   color: var(--onText-neutralDark, #fff);
   text-align: center;
@@ -28,7 +73,7 @@
   line-height: normal;
   text-transform: capitalize;
 }
-
+/* TEXT ANIMATED STATES */
 .buttonTab-ctn .text-button.default {
   animation: primaryToDefault 300ms ease-out forwards;
 }
@@ -36,19 +81,39 @@
 .buttonTab-ctn .text-button.hover {
   animation: primaryToHover 300ms ease-out forwards;
 }
+.buttonTab-ctn .text-button.clicked {
+  color: var(--primary-60, #ff800b);
+}
+.buttonTab-ctn .text-button.clicked-hover {
+  animation: primaryToHover 300ms ease-out forwards;
+}
+
+/* TAB ANIMATED STATES */
+.buttonTab-ctn.hover {
+  border-top: 2px solid var(--primary-60, #ff800b);
+}
+
+.buttonTab-ctn.clicked-hover {
+  border-top: 2px solid var(--primary-60, #ff800b);
+}
+
+.buttonTab-ctn .disabled {
+  color: var(--neutral-60, #606060);
+  cursor: none;
+}
 
 @keyframes primaryToHover {
   0% {
     color: var(--onText-neutralDark, #fff);
   }
   100% {
-    color: var(--primary-50, #ff910b);
+    color: var(--primary-60, #ff800b);
   }
 }
 
 @keyframes primaryToDefault {
   0% {
-    color: var(--primary-50, #ff910b);
+    color: var(--primary-60, #ff800b);
   }
   100% {
     color: var(--onText-neutralDark, #fff);

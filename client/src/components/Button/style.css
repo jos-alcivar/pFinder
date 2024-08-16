@@ -28,40 +28,22 @@
 }
 
 .button.default.primary {
-  animation: primaryToDefault 300ms ease-out forwards;
+  animation: PrimaryDefaultToHover 300ms ease-out forwards;
 }
 
 .button.hover.primary {
-  animation: primaryToHover 300ms ease-out forwards;
+  animation: PrimaryHoverToDefault 300ms ease-out forwards;
 }
 
 .button.default.secondary {
-  animation: secondaryToHover 300ms ease-out forwards;
+  animation: SecondaryDefaultToHover 300ms ease-out forwards;
 }
 
 .button.hover.secondary {
-  animation: secondaryToDefault 300ms ease-out forwards;
+  animation: SecondaryHoverToDefault 300ms ease-out forwards;
 }
 
-@keyframes secondaryToHover {
-  0% {
-    background-color: var(--neutral-70, #444);
-  }
-  100% {
-    background-color: var(--neutral-60, #606060);
-  }
-}
-
-@keyframes secondaryToDefault {
-  0% {
-    background-color: var(--neutral-60, #606060);
-  }
-  100% {
-    background-color: var(--neutral-70, #444);
-  }
-}
-
-@keyframes primaryToHover {
+@keyframes PrimaryDefaultToHover {
   0% {
     background-color: var(--primary-60, #ff800b);
   }
@@ -70,11 +52,29 @@
   }
 }
 
-@keyframes primaryToDefault {
+@keyframes PrimaryHoverToDefault {
   0% {
     background-color: var(--primary-50, #ff910b);
   }
   100% {
     background-color: var(--primary-60, #ff800b);
+  }
+}
+
+@keyframes SecondaryDefaultToHover {
+  0% {
+    background-color: var(--neutral-70, #444);
+  }
+  100% {
+    background-color: var(--neutral-60, #606060);
+  }
+}
+
+@keyframes SecondaryHoverToDefault {
+  0% {
+    background-color: var(--neutral-60, #606060);
+  }
+  100% {
+    background-color: var(--neutral-70, #444);
   }
 }

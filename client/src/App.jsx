@@ -14,8 +14,7 @@ function App() {
   return (
     <>
       <div className="card">
-        <Button label="Apply" />
-        <Button label="Cancel" type="secondary" />
+        <Button label="Apply" type="primary" />
         <Option label="Anything" />
         <OptionCircle label="all" />
         <InputItem label="Job Title" />
@@ -32,7 +31,7 @@ function App() {
           <TabItem label="posts" />
           <TabItem label="reports" />
           <TabItem label="jobs" />
-          <TabItem label="account" />
+          <TabItem label="account" status="disabled" />
         </div>
       </div>
     </>

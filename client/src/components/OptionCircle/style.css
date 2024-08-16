@@ -68,18 +68,18 @@
 
 @keyframes clickedToHover {
   0% {
-    background-color: var(--primary-60, #ff800b);
+    background-color: var(--primary-50, #ff910b);
   }
   100% {
-    background-color: var(--primary-50, #ff910b);
+    background-color: var(--primary-60, #ff800b);
   }
 }
 
 @keyframes hoverToClicked {
   0% {
-    background-color: var(--primary-50, #ff910b);
+    background-color: var(--primary-60, #ff800b);
   }
   100% {
-    background-color: var(--primary-60, #ff800b);
+    background-color: var(--primary-50, #ff910b);
   }
 }
