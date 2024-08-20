@@ -1,14 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import { TabItem } from "../components/TabItem";
 import { InputItem } from "../components/InputItem";
 import { Button } from "../components/Button";
 import { Option } from "../components/Option";
 
-const expList = ["Junior", "Mid", "Senior", "Lead", "Supervisor"];
-const modelList = ["On-Site", "Hybrid", "Remote"];
-
 function Post() {
+  useEffect(() => {
+    loadExperience();
+    loadWorkModel();
+  }, []);
+
+  // --- LOAD EXPERIENCE VALUES FROM DB ---
+  const [experience, setExperience] = useState([]);
+  const loadExperience = async () => {
+    const response = await fetch("http://localhost:3000/experience");
+    const data = await response.json();
+    const experienceList = data.map((experience) => experience.level);
+    setExperience(
+      experienceList.map((level) => ({
+        label: level,
+        status: "default",
+      }))
+    );
+  };
+
+  // --- LOAD WORK MODEL VALUES FROM DB ---
+  const [model, setModel] = useState([]);
+  const loadWorkModel = async () => {
+    const response = await fetch("http://localhost:3000/work-model");
+    const data = await response.json();
+    const workModelList = data.map((model) => model.model_name);
+    setModel(
+      workModelList.map((model) => ({
+        label: model,
+        status: "default",
+      }))
+    );
+  };
+
   // Set values from text inputs
   const [post, setPost] = useState({
     title: "",
@@ -21,20 +51,6 @@ function Post() {
     model: [],
     date: "",
   });
-
-  const [experience, setExperience] = useState(
-    expList.map((level) => ({
-      label: level,
-      status: "default",
-    }))
-  );
-
-  const [model, setModel] = useState(
-    modelList.map((model) => ({
-      label: model,
-      status: "default",
-    }))
-  );
 
   // Handle Changes
   function handleChange(event) {
