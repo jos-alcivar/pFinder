@@ -30,25 +30,25 @@
   text-transform: uppercase;
 }
 
-.optionCircle.default {
+.optionCircle.unselected.default {
   border: var(--border-width-medium, 1px) solid var(--neutral-60, #606060);
   animation: hoverToDefault 300ms ease-out forwards;
 }
 
-.optionCircle.hover {
+.optionCircle.unselected.hover {
   border: var(--border-width-medium, 1px) solid var(--neutral-30, #b3b3b3);
   animation: defaultToHover 300ms ease-out forwards;
 }
 
-.optionCircle.clicked-default {
+.optionCircle.selected.default {
   animation: hoverToClicked 300ms ease-out forwards;
 }
 
-.optionCircle.clicked-hover {
+.optionCircle.selected.hover {
   animation: clickedToHover 300ms ease-out forwards;
 }
 
-@keyframes defaultToHover {
+@keyframes defaultToHoverUnselected {
   0% {
     background-color: rgba(0, 0, 0, 0);
   }
@@ -57,7 +57,7 @@
   }
 }
 
-@keyframes hoverToDefault {
+@keyframes hoverToDefaultUnselected {
   0% {
     background-color: var(--neutral-70, #444);
   }
@@ -66,20 +66,20 @@
   }
 }
 
-@keyframes clickedToHover {
+@keyframes defaultToHoverSelected {
   0% {
-    background-color: var(--primary-50, #ff910b);
+    background-color: var(--primary-60, #ff800b);
   }
   100% {
-    background-color: var(--primary-60, #ff800b);
+    background-color: var(--primary-50, #ff910b);
   }
 }
 
-@keyframes hoverToClicked {
+@keyframes hoverToDefaultSelected {
   0% {
-    background-color: var(--primary-60, #ff800b);
+    background-color: var(--primary-50, #ff910b);
   }
   100% {
-    background-color: var(--primary-50, #ff910b);
+    background-color: var(--primary-60, #ff800b);
   }
 }

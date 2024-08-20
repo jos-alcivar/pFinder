@@ -2,34 +2,37 @@ import PropTypes from "prop-types";
 import { useReducer } from "react";
 import "./style.css";
 
-export const OptionCircle = ({ label, status }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    label: label || "ALL",
-    status: status || "default",
-  });
+export const OptionCircle = ({
+  label = "",
+  status = "default",
+  type = "unselected",
+  onTypeChange,
+}) => {
+  const [state, dispatch] = useReducer(reducer, { label, status, type });
+
+  const handleMouseLeave = () => {
+    dispatch("mouse_leave");
+    onTypeChange && onTypeChange(state.type);
+  };
+
+  const handleMouseEnter = () => {
+    dispatch("mouse_enter");
+    onTypeChange && onTypeChange(state.type);
+  };
+
+  const handleClick = () => {
+    dispatch(state.type === "unselected" ? "mouse_select" : "mouse_unselect");
+    onTypeChange && onTypeChange(state.type);
+  };
 
   return (
     <div
-      className={`optionCircle ${state.status} ${state.label}`}
-      onMouseLeave={() => {
-        state.status === "clicked-default" || state.status === "clicked-hover"
-          ? dispatch("mouse_click")
-          : dispatch("mouse_leave");
-      }}
-      onMouseEnter={() => {
-        state.status === "clicked-default"
-          ? dispatch("mouse_click_enter")
-          : dispatch("mouse_enter");
-      }}
-      onClick={() => {
-        state.status === "clicked-default" || state.status === "clicked-hover"
-          ? dispatch("mouse_leave")
-          : dispatch("mouse_click");
-      }}
+      className={`optionCircle ${state.type} ${state.status} ${state.label}`}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onClick={handleClick}
     >
-      <div className="text-option">
-        <>{state.label}</>
-      </div>
+      <div className="text-option">{state.label}</div>
     </div>
   );
 };
@@ -37,34 +40,25 @@ export const OptionCircle = ({ label, status }) => {
 function reducer(state, action) {
   switch (action) {
     case "mouse_enter":
-      return {
-        ...state,
-        status: "hover",
-      };
+      return { ...state, status: "hover" };
 
     case "mouse_leave":
-      return {
-        ...state,
-        status: "default",
-      };
+      return { ...state, status: "default" };
 
-    case "mouse_click":
-      return {
-        ...state,
-        status: "clicked-default",
-      };
+    case "mouse_select":
+      return { ...state, type: "selected" };
 
-    case "mouse_click_enter":
-      return {
-        ...state,
-        status: "clicked-hover",
-      };
+    case "mouse_unselect":
+      return { ...state, type: "unselected" };
+
+    default:
+      return state;
   }
-
-  return state;
 }
 
 OptionCircle.propTypes = {
   label: PropTypes.string,
   status: PropTypes.string,
+  onTypeChange: PropTypes.func,
+  type: PropTypes.string,
 };

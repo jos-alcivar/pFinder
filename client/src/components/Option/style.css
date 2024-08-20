@@ -1,13 +1,13 @@
 .option {
   display: flex;
-  width: 4.625rem;
-  height: 2rem;
-  min-width: 2rem;
-  padding: var(--space-small, 0.5rem);
+  height: 14px;
+  min-width: 32px;
+  padding: var(--space-small, 8px);
   align-items: center;
-  gap: var(--space-small, 0.5rem);
-  flex-shrink: 0;
-  border-radius: var(--radii-medium, 0.5rem);
+  gap: var(--space-small, 8px);
+  justify-content: center;
+  border-radius: var(--radii-medium, 8px);
+  border: 1px solid var(--neutral-60, #606060);
 }
 
 .option .text-option {
@@ -27,25 +27,25 @@
   line-height: 175%; /* 1.75rem */
 }
 
-.option.default {
+.option.unselected.default {
   border: var(--border-width-medium, 1px) solid var(--neutral-60, #606060);
-  animation: hoverToDefault 300ms ease-out forwards;
+  animation: hoverToDefaultUnselected 300ms ease-out forwards;
 }
 
-.option.hover {
+.option.unselected.hover {
   border: var(--border-width-medium, 1px) solid var(--neutral-60, #606060);
-  animation: defaultToHover 300ms ease-out forwards;
+  animation: defaultToHoverUnselected 300ms ease-out forwards;
 }
 
-.option.clicked-default {
-  animation: hoverToClicked 300ms ease-out forwards;
+.option.selected.default {
+  animation: hoverToDefaultSelected 300ms ease-out forwards;
 }
 
-.option.clicked-hover {
-  animation: clickedToHover 300ms ease-out forwards;
+.option.selected.hover {
+  animation: defaultToHoverSelected 300ms ease-out forwards;
 }
 
-@keyframes defaultToHover {
+@keyframes defaultToHoverUnselected {
   0% {
     background-color: rgba(0, 0, 0, 0);
   }
@@ -54,7 +54,7 @@
   }
 }
 
-@keyframes hoverToDefault {
+@keyframes hoverToDefaultUnselected {
   0% {
     background-color: var(--neutral-70, #444);
   }
@@ -63,7 +63,7 @@
   }
 }
 
-@keyframes clickedToHover {
+@keyframes defaultToHoverSelected {
   0% {
     background-color: var(--primary-60, #ff800b);
   }
@@ -72,7 +72,7 @@
   }
 }
 
-@keyframes hoverToClicked {
+@keyframes hoverToDefaultSelected {
   0% {
     background-color: var(--primary-50, #ff910b);
   }

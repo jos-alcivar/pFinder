@@ -1,13 +1,15 @@
 .input-text {
   display: flex;
-  width: 24.875rem;
-  height: 2rem;
-  padding: var(--space-zero, 0rem) var(--space-medium, 0.75rem);
+  width: 374px;
+  height: 32px;
+  padding: var(--space-zero, 0px) var(--space-medium, 12px);
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
 
-  border-radius: 0.5rem;
+  flex: 1 0 0;
+
+  border-radius: var(--radii-medium);
   border: var(--border-width-medium, 1px) solid var(--neutral-60, #606060);
   background-color: #00000000;
   color: var(--onText-neutralDark, #fff);

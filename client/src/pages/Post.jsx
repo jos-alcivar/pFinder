@@ -1,0 +1,211 @@
+import { useState } from "react";
+import "./style.css";
+import { TabItem } from "../components/TabItem";
+import { InputItem } from "../components/InputItem";
+import { Button } from "../components/Button";
+import { Option } from "../components/Option";
+
+const expList = ["Junior", "Mid", "Senior", "Lead", "Supervisor"];
+const modelList = ["On-Site", "Hybrid", "Remote"];
+
+function Post() {
+  // Set values from text inputs
+  const [post, setPost] = useState({
+    title: "",
+    experience: [],
+    country: "",
+    state: "",
+    city: "",
+    company: "",
+    link: "",
+    model: [],
+    date: "",
+  });
+
+  const [experience, setExperience] = useState(
+    expList.map((level) => ({
+      label: level,
+      status: "default",
+    }))
+  );
+
+  const [model, setModel] = useState(
+    modelList.map((model) => ({
+      label: model,
+      status: "default",
+    }))
+  );
+
+  // Handle Changes
+  function handleChange(event) {
+    // Input values
+    const { name, value } = event.target;
+    setPost((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+
+    // Option values
+    const experienceOptions = experience.filter(
+      (experience) => experience.type === "selected"
+    );
+    const experienceList = experienceOptions.map((i) => i.label);
+    const modelOptions = model.filter((model) => model.type === "selected");
+    const modelList = modelOptions.map((i) => i.label);
+    setPost((prevPost) => ({
+      ...prevPost,
+      experience: experienceList,
+      model: modelList,
+    }));
+  }
+
+  function handleSubmitButton() {
+    //const form = document.getElementById("form-postJob");
+    //   if (form) {
+    //     form.submit();
+    //   }
+    console.log("Form data:", post);
+    console.log("Button was clicked, form submitted");
+  }
+
+  return (
+    <div className="app-ctn">
+      <div className="header-ctn">
+        <label className="header-text">New Post</label>
+      </div>
+      <div className="body-ctn">
+        <div className="content-ctn">
+          <div>
+            <form id="form-postJob" className="form-ctn">
+              <div className="form-job">
+                <InputItem
+                  onChange={handleChange}
+                  value={post.title}
+                  name="title"
+                  placeholder="Add job title"
+                  label="Job Title:"
+                  required
+                />
+                <div className="experience-row">
+                  <div className="option-row">
+                    {experience.map((option, index) => (
+                      <Option
+                        key={index}
+                        label={option.label}
+                        status={option.status}
+                        onTypeChange={(newType) => {
+                          setExperience((prevOptions) =>
+                            prevOptions.map((opt, idx) =>
+                              idx === index ? { ...opt, type: newType } : opt
+                            )
+                          );
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <hr className="separator"></hr>
+              <div className="form-location">
+                <InputItem
+                  onChange={handleChange}
+                  value={post.country}
+                  name="country"
+                  placeholder="Country"
+                  label="Country:"
+                  required
+                />
+                <InputItem
+                  onChange={handleChange}
+                  value={post.state}
+                  name="state"
+                  placeholder="State/Province"
+                  label="State/Province:"
+                  required
+                />
+                <InputItem
+                  onChange={handleChange}
+                  value={post.city}
+                  name="city"
+                  placeholder="City"
+                  label="City:"
+                  required
+                />
+              </div>
+              <hr className="separator"></hr>
+              <div className="form-company">
+                <InputItem
+                  onChange={handleChange}
+                  value={post.company}
+                  name="company"
+                  placeholder="Company"
+                  label="Company:"
+                  required
+                />
+                <InputItem
+                  onChange={handleChange}
+                  value={post.link}
+                  name="link"
+                  placeholder="Link to website, source or email contact"
+                  label="Link:"
+                />
+              </div>
+              <hr className="separator"></hr>
+              <div className="form-info">
+                <div className="model-row">
+                  <label className="model-label">Work Model</label>
+                  <div className="option-row">
+                    {model.map((option, index) => (
+                      <Option
+                        key={index}
+                        label={option.label}
+                        status={option.status}
+                        onTypeChange={(newType) => {
+                          setModel((prevOptions) =>
+                            prevOptions.map((opt, idx) =>
+                              idx === index ? { ...opt, type: newType } : opt
+                            )
+                          );
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <InputItem
+                  onChange={handleChange}
+                  value={post.date}
+                  name="date"
+                  placeholder="Date this post was published"
+                  label="Date:"
+                  required
+                />
+              </div>
+              <hr className="separator"></hr>
+              <div className="form-submit">
+                <Button
+                  id="submit-button"
+                  label="Post"
+                  type="primary"
+                  onClick={handleSubmitButton}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="tabBar-ctn">
+        <div className="buttons-row">
+          <TabItem label="posts"></TabItem>
+          <TabItem label="reports"></TabItem>
+          <TabItem label="jobs"></TabItem>
+          <TabItem label="account"></TabItem>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Post;
