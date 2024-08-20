@@ -5,7 +5,7 @@ import Test from "./pages/test";
 function App() {
   return (
     <>
-      <Post />
+      <Test />
     </>
   );
 }

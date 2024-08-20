@@ -1,43 +1,75 @@
-import { useReducer, useState } from "react";
-import { Option } from "../components/Option";
+import "./style.css";
+import { TabItem } from "../components/TabItem";
+import { useExperience } from "../hooks/useExperience";
+import { useWorkModel } from "../hooks/useWorkModel";
+import { usePostState } from "../hooks/usePostState";
+import { PostForm } from "../forms/PostForm";
+import { useEffect } from "react";
 
-const experience = ["jun", "mid", "sr"];
+function Post() {
+  const [experience, setExperience] = useExperience();
+  const [model, setModel] = useWorkModel();
+  const [post, setPost] = usePostState();
 
-const Test = () => {
-  const [options, setOptions] = useState(
-    experience.map((exp) => ({
-      label: exp,
-      status: "default",
-    }))
-  );
+  useEffect(() => {
+    console.log("Updated post data:", post);
+  }, [post]);
 
-  const handleClick = () => {
-    // Log options with type "selected"
-    const clickedOptions = options.filter(
-      (option) => option.type === "selected"
-    );
-    console.log(clickedOptions);
-  };
+  function handleOptionsChange() {
+    const selectedExp = experience.filter((exp) => exp.type === "selected");
+    const selectedExpList = selectedExp.map((e) => e.label);
+    const selectedModel = model.filter((mod) => mod.type === "selected");
+    const selectedModelList = selectedModel.map((m) => m.label);
+    setPost((prevPost) => ({
+      ...prevPost,
+      experience: selectedExpList,
+      model: selectedModelList,
+    }));
+  }
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setPost((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+    }));
+  }
+
+  function handleSubmitButton() {
+    handleOptionsChange();
+    console.log("Form data:", post);
+    console.log("Button was clicked, form submitted");
+  }
 
   return (
-    <div className="app">
-      {options.map((option, index) => (
-        <Option
-          key={index}
-          label={option.label}
-          status={option.status}
-          onTypeChange={(newType) => {
-            setOptions((prevOptions) =>
-              prevOptions.map((opt, idx) =>
-                idx === index ? { ...opt, type: newType } : opt
-              )
-            );
-          }}
-        />
-      ))}
-      <button onClick={handleClick}>Check</button>
+    <div className="app-ctn">
+      <div className="header-ctn">
+        <label className="header-text">New Post</label>
+      </div>
+      <div className="body-ctn">
+        <div className="content-ctn">
+          <PostForm
+            post={post}
+            handleChange={handleChange}
+            handleSubmitButton={handleSubmitButton}
+            experience={experience}
+            setExperience={setExperience}
+            model={model}
+            setModel={setModel}
+          />
+        </div>
+      </div>
+
+      <div className="tabBar-ctn">
+        <div className="buttons-row">
+          <TabItem label="posts"></TabItem>
+          <TabItem label="reports"></TabItem>
+          <TabItem label="jobs"></TabItem>
+          <TabItem label="account"></TabItem>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default Test;
+export default Post;
