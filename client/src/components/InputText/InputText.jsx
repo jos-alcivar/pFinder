@@ -4,22 +4,58 @@ import "./style.css";
 
 export const InputText = (props) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    props.onChange(e);
+
+    if (value) {
+      const filteredSuggestions = props.options
+        .filter((option) =>
+          option.toLowerCase().startsWith(value.toLowerCase())
+        )
+        .slice(0, 3);
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    // Update the input value and clear suggestions
+    props.onChange({ target: { name: props.name, value: suggestion } });
+    setSuggestions([]);
+    setIsFocused(false); // Optionally, blur the input after selection
+  };
 
   return (
-    <input
-      type="text"
-      onChange={props.onChange}
-      value={props.value}
-      name={props.name}
-      placeholder={props.placeholder}
-      className={`input-text  ${isFocused ? "active" : ""} ${
-        props.disabled ? "disabled" : ""
-      }`}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      disabled={props.disabled}
-      required={props.required}
-    />
+    <div className="autocomplete-wrapper">
+      <input
+        type="text"
+        onChange={handleInputChange}
+        value={props.value}
+        name={props.name}
+        placeholder={props.placeholder}
+        className={`input-text ${isFocused ? "active" : ""} ${
+          props.disabled ? "disabled" : ""
+        }`}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        disabled={props.disabled}
+        required={props.required}
+        autoComplete="off"
+      />
+      {suggestions.length > 0 && (
+        <ul className="suggestions-list">
+          {suggestions.map((suggestion, index) => (
+            <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
@@ -30,4 +66,5 @@ InputText.propTypes = {
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.string), // Add options prop type
 };

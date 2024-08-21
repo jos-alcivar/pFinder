@@ -13,6 +13,7 @@ export const InputItem = (props) => {
         placeholder={props.placeholder}
         disabled={props.disabled}
         required={props.required}
+        options={props.options}
       />
     </div>
   );
@@ -23,6 +24,7 @@ InputItem.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.string),
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   value: PropTypes.string,

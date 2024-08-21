@@ -12,6 +12,11 @@ export function PostForm({
   setExperience,
   model,
   setModel,
+  jobTitles,
+  countries,
+  companies,
+  states,
+  cities,
 }) {
   return (
     <form id="form-postJob" className="form-ctn">
@@ -22,6 +27,7 @@ export function PostForm({
           name="title"
           placeholder="Add job title"
           label="Job Title:"
+          options={jobTitles}
           required
         />
         <div className="experience-row">
@@ -40,6 +46,7 @@ export function PostForm({
           placeholder="Country"
           label="Country:"
           required
+          options={countries}
         />
         <InputItem
           onChange={handleChange}
@@ -48,6 +55,7 @@ export function PostForm({
           placeholder="State/Province"
           label="State/Province:"
           required
+          options={states}
         />
         <InputItem
           onChange={handleChange}
@@ -56,6 +64,7 @@ export function PostForm({
           placeholder="City"
           label="City:"
           required
+          options={cities}
         />
       </div>
       <hr className="separator"></hr>
@@ -67,6 +76,7 @@ export function PostForm({
           placeholder="Company"
           label="Company:"
           required
+          options={companies}
         />
         <InputItem
           onChange={handleChange}

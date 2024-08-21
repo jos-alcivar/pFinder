@@ -6,7 +6,7 @@ export function useExperience() {
 
   useEffect(() => {
     async function loadExperience() {
-      const response = await fetch("http://localhost:3000/experience");
+      const response = await fetch("http://localhost:3000/experience-level");
       const data = await response.json();
       const experienceList = data.map((experience) => experience.level);
       setExperience(
