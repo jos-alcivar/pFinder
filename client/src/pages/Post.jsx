@@ -38,31 +38,11 @@ function Post() {
       [name]: value,
     }));
 
-    const formNewPost = {
-      jobtitle_id: 0,
-      jobtitle_name: "",
-      jobtitle_exist: false,
-      experience_id: [],
-      country_id: 0,
-      country_name: "",
-      country_exist: false,
-      province_id: 0,
-      province_name: "",
-      province_exist: false,
-      city_id: 0,
-      city_name: "",
-      city_exist: false,
-      company_id: 0,
-      company_name: "",
-      company_exist: false,
-      model_id: [],
-      date: "",
-      contact: "",
-    };
-
-    switch (event.target.name) {
-      case "title": {
-        const jobtitleSelected = event.target.value;
+    switch (name) {
+      case "jobtitle_name": {
+        const jobtitleSelected = value;
+        let temp_id = 0;
+        // --- GET JOB TITLE ID ---
         try {
           const response = await fetch("http://localhost:3000/job-title-id", {
             method: "POST",
@@ -71,58 +51,87 @@ function Post() {
           });
           if (response.ok) {
             const data = await response.json();
-            console.log("Response Data:", data);
-            data.found
-              ? (formNewPost.jobtitle_id = data.jobtitle_id)
-              : (formNewPost.jobtitle_id = data.jobtitle_id + 1);
+            console.log("Job Title Response Data:", data);
+            temp_id = data.found ? data.jobtitle_id : data.jobtitle_id + 1;
+            console.log(temp_id, data.found);
 
-            formNewPost.jobtitle_name = jobtitleSelected;
-            formNewPost.jobtitle_exist = data.found;
+            setPost((prevValue) => ({
+              ...prevValue,
+              jobtitle_id: temp_id,
+              jobtitle_exist: data.found,
+            }));
+            console.log(post);
           } else {
-            console.error("POST request failed:", response.statusText);
+            console.error(
+              "Job Title POST request failed:",
+              response.statusText
+            );
           }
         } catch (error) {
           console.error("Error:", error);
         }
         break;
       }
-      case "country": {
-        const countrySelected = event.target.value;
+      case "country_name": {
+        const countrySelected = value;
+        let temp_id = 0;
+        // --- GET COUNTRY ID ---
         try {
-          const response = await fetch(
-            "http://localhost:3000/states&provinces-by-country",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ value: countrySelected }),
-            }
-          );
+          const response = await fetch("http://localhost:3000/country-id", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country: countrySelected }),
+          });
           if (response.ok) {
             const data = await response.json();
-            const provincesList = data.map((province) => province.state_name);
-            setProvinces(provincesList);
-            console.log("Response Data:", data);
+            console.log("Country Response Data:", data);
+            temp_id = data.found ? data.country_id : data.country_id + 1;
+
+            setPost((prev) => ({
+              ...prev,
+              country_id: temp_id,
+              country_exist: data.found,
+            }));
+            // --- GET STATES/PROVINCES BY COUNTRY ---
+            const statesResponse = await fetch(
+              "http://localhost:3000/states&provinces-by-country",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ country_id: temp_id }),
+              }
+            );
+            if (statesResponse.ok) {
+              const statesData = await statesResponse.json();
+              const statesList = statesData.map((state) => state.state_name);
+              setProvinces(statesList);
+              console.log("States Response Data:", statesList);
+            } else {
+              console.error(
+                "States POST request failed:",
+                statesResponse.statusText
+              );
+            }
           } else {
-            console.error("POST request failed:", response.statusText);
+            console.error("Country POST request failed:", response.statusText);
           }
         } catch (error) {
           console.error("Error:", error);
         }
         break;
       }
-      case "state": {
+      case "state_name": {
         break;
       }
-      case "city": {
+      case "city_name": {
         break;
       }
-      case "company": {
+      case "company_name": {
         break;
       }
       default:
-        console.log(event.target.name);
+        console.log(name);
     }
-    console.log(formNewPost);
   }
 
   function handleSubmitButton() {
@@ -138,10 +147,10 @@ function Post() {
     });
 
     const form = document.getElementById("form-postJob");
-    if (form) {
-      alert("Form Submitted!");
-      form.submit();
-    }
+    // if (form) {
+    //   alert("Form Submitted!");
+    //   form.submit();
+    // }
   }
 
   return (

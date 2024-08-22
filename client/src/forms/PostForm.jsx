@@ -23,8 +23,8 @@ export function PostForm({
       <div className="form-job">
         <InputItem
           onChange={handleChange}
-          value={post.title}
-          name="title"
+          value={post.jobtitle_name}
+          name="jobtitle_name"
           placeholder="Add job title"
           label="Job Title:"
           options={jobTitles}
@@ -41,8 +41,8 @@ export function PostForm({
       <div className="form-location">
         <InputItem
           onChange={handleChange}
-          value={post.country}
-          name="country"
+          value={post.country_name}
+          name="country_name"
           placeholder="Country"
           label="Country:"
           required
@@ -50,8 +50,8 @@ export function PostForm({
         />
         <InputItem
           onChange={handleChange}
-          value={post.state}
-          name="state"
+          value={post.state_name}
+          name="state_name"
           placeholder="State/Province"
           label="State/Province:"
           required
@@ -59,8 +59,8 @@ export function PostForm({
         />
         <InputItem
           onChange={handleChange}
-          value={post.city}
-          name="city"
+          value={post.city_name}
+          name="city_name"
           placeholder="City"
           label="City:"
           required
@@ -71,8 +71,8 @@ export function PostForm({
       <div className="form-company">
         <InputItem
           onChange={handleChange}
-          value={post.company}
-          name="company"
+          value={post.company_name}
+          name="company_name"
           placeholder="Company"
           label="Company:"
           required
