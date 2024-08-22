@@ -6,7 +6,10 @@ import {
 import { getWorkModelList } from "../controllers/workmodel.controller.js";
 import { getExperienceList } from "../controllers/experience.controller.js";
 import { getStateListbyCountry } from "../controllers/state.controller.js";
-import { getCountryList } from "../controllers/country.controller.js";
+import {
+  getCountryId,
+  getCountryList,
+} from "../controllers/country.controller.js";
 import { getCompanyList } from "../controllers/company.controller.js";
 import { getCityList } from "../controllers/city.controller.js";
 
@@ -27,6 +30,7 @@ router.get("/work-model", getWorkModelList);
 
 // --- POST METHODS ---
 router.post("/job-title-id", getJobTitleId);
+router.post("/country-id", getCountryId);
 router.post("/states&provinces-by-country", getStateListbyCountry);
 
 export default router;
