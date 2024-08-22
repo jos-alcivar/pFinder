@@ -25,7 +25,7 @@ const getStateId = async (req, res) => {
         stateID.found = false;
         res.send(stateID);
       } else {
-        res.status(404).send({ error: "No job states found in the database." });
+        res.status(404).send({ error: "No states found in the database." });
       }
     }
   } catch (err) {

@@ -12,4 +12,24 @@ const getExperienceList = async (req, res) => {
   }
 };
 
-export { getExperienceList };
+// --- GET EXPERIENCE SELECTED ID  ---
+const getExperienceSelectedIds = async (req, res) => {
+  try {
+    const input = req.body["experience"];
+    const placeholders = input.map((_, index) => `$${index + 1}`).join(", ");
+    const query = `SELECT experience_id FROM experience WHERE level IN (${placeholders})`;
+
+    const data = await db.query(query, input);
+    const list = data.rows.map((e) => e.experience_id);
+    console.log(input);
+    console.log(data.rows);
+    res.send(list);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send({ error: "An error occurred while retrieving the experience ID." });
+  }
+};
+
+export { getExperienceList, getExperienceSelectedIds };

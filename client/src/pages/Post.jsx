@@ -9,10 +9,18 @@ import { useJobTitle } from "../hooks/useJobTitle";
 import { usePostState } from "../hooks/usePostState";
 import { useWorkModel } from "../hooks/useWorkModel";
 import { useStateProvince } from "../hooks/useStateProvince";
+import {
+  fetchAndSetCity,
+  fetchAndSetCompany,
+  fetchAndSetCountry,
+  fetchAndSetJobTitle,
+  fetchAndSetState,
+  fetchAndSetOptions,
+} from "../utils/formHelpers";
 
 function Post() {
-  const [citites] = useCity();
-  const [companies] = useCompany();
+  const [cities, setCities] = useCity();
+  const [companies, setCompanies] = useCompany();
   const [countries] = useCountry();
   const [experience, setExperience] = useExperience();
   const [jobTitles] = useJobTitle();
@@ -40,106 +48,36 @@ function Post() {
 
     switch (name) {
       case "jobtitle_name": {
-        const jobtitleSelected = value;
-        let temp_id = 0;
-        // --- GET JOB TITLE ID ---
-        try {
-          const response = await fetch("http://localhost:3000/job-title-id", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ jobtitle: jobtitleSelected }),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            console.log("Job Title Response Data:", data);
-            temp_id = data.found ? data.jobtitle_id : data.jobtitle_id + 1;
-            console.log(temp_id, data.found);
-
-            setPost((prevValue) => ({
-              ...prevValue,
-              jobtitle_id: temp_id,
-              jobtitle_exist: data.found,
-            }));
-            console.log(post);
-          } else {
-            console.error(
-              "Job Title POST request failed:",
-              response.statusText
-            );
-          }
-        } catch (error) {
-          console.error("Error:", error);
-        }
+        await fetchAndSetJobTitle(value, setPost);
         break;
       }
       case "country_name": {
-        const countrySelected = value;
-        let temp_id = 0;
-        // --- GET COUNTRY ID ---
-        try {
-          const response = await fetch("http://localhost:3000/country-id", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ country: countrySelected }),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            console.log("Country Response Data:", data);
-            temp_id = data.found ? data.country_id : data.country_id + 1;
-
-            setPost((prev) => ({
-              ...prev,
-              country_id: temp_id,
-              country_exist: data.found,
-            }));
-            // --- GET STATES/PROVINCES BY COUNTRY ---
-            const statesResponse = await fetch(
-              "http://localhost:3000/states&provinces-by-country",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ country_id: temp_id }),
-              }
-            );
-            if (statesResponse.ok) {
-              const statesData = await statesResponse.json();
-              const statesList = statesData.map((state) => state.state_name);
-              setProvinces(statesList);
-              console.log("States Response Data:", statesList);
-            } else {
-              console.error(
-                "States POST request failed:",
-                statesResponse.statusText
-              );
-            }
-          } else {
-            console.error("Country POST request failed:", response.statusText);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-        }
+        await fetchAndSetCountry(value, setPost, setProvinces);
         break;
       }
       case "state_name": {
+        await fetchAndSetState(value, setPost, setCities);
         break;
       }
       case "city_name": {
+        await fetchAndSetCity(value, setPost, setCompanies);
         break;
       }
       case "company_name": {
+        await fetchAndSetCompany(value, setPost);
         break;
       }
-      default:
-        console.log(name);
     }
   }
 
-  function handleSubmitButton() {
-    const options = handleOptionsChange();
+  async function handleSubmitButton() {
+    const options = await handleOptionsChange();
+    const options_id = await fetchAndSetOptions(options);
+
     setPost((prevPost) => {
       const updatedPost = {
         ...prevPost,
-        ...options,
+        ...options_id,
       };
       console.log("Form data:", updatedPost);
       console.log("Button was clicked, form submitted");
@@ -171,7 +109,7 @@ function Post() {
             jobTitles={jobTitles}
             countries={countries}
             states={provinces}
-            cities={citites}
+            cities={cities}
             companies={companies}
           />
         </div>

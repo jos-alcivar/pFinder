@@ -11,12 +11,14 @@ export const InputText = (props) => {
     props.onChange(e);
 
     if (value) {
-      const filteredSuggestions = props.options
-        .filter((option) =>
-          option.toLowerCase().startsWith(value.toLowerCase())
-        )
-        .slice(0, 3);
-      setSuggestions(filteredSuggestions);
+      if (props.options) {
+        const filteredSuggestions = props.options
+          .filter((option) =>
+            option.toLowerCase().startsWith(value.toLowerCase())
+          )
+          .slice(0, 3);
+        setSuggestions(filteredSuggestions);
+      }
     } else {
       setSuggestions([]);
     }

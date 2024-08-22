@@ -37,9 +37,7 @@ const getCountryId = async (req, res) => {
         countryID.found = false;
         res.send(countryID);
       } else {
-        res
-          .status(404)
-          .send({ error: "No job countries found in the database." });
+        res.status(404).send({ error: "No countries found in the database." });
       }
     }
   } catch (err) {
