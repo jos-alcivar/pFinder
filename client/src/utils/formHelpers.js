@@ -193,26 +193,33 @@ export async function fetchAndSetCompany(companySelected, setPost) {
   }
 }
 
-//  Fetch the Experience and Work Model
-export async function fetchAndSetOptions(options) {
+//  Fetch the Experience IDs
+export async function fetchAndSetExperience(experience) {
   let selectedExp;
-  let selectedMod;
   try {
     const experienceResponse = await fetch(
       "http://localhost:3000/experience-selected-ids",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ experience: options.experience }),
+        body: JSON.stringify({ experience: experience }),
       }
     );
     if (experienceResponse.ok) {
       selectedExp = await experienceResponse.json();
-      console.log("Experience ID", selectedExp);
     }
   } catch (error) {
     console.error("Error:", error);
   }
+
+  return {
+    experience_id: selectedExp,
+  };
+}
+
+//  Fetch Work Model IDs
+export async function fetchAndSetWorkmodel(workmodel) {
+  let selectedMod;
 
   try {
     const modelResponse = await fetch(
@@ -220,18 +227,16 @@ export async function fetchAndSetOptions(options) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: options.model }),
+        body: JSON.stringify({ model: workmodel }),
       }
     );
     if (modelResponse.ok) {
       selectedMod = await modelResponse.json();
-      console.log("Model ID", selectedMod);
     }
   } catch (error) {
     console.error("Error:", error);
   }
   return {
-    experience_id: selectedExp,
     model_id: selectedMod,
   };
 }

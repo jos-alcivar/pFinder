@@ -27,6 +27,7 @@ import {
   getCompanyId,
   getCompaniesbyCity,
 } from "../controllers/company.controller.js";
+import { createNewPost } from "../controllers/post.cotroller.js";
 
 const router = Router();
 
@@ -52,5 +53,7 @@ router.post("/experience-selected-ids", getExperienceSelectedIds);
 router.post("/state-id", getStateId);
 router.post("/states&provinces-by-country", getStateListbyCountry);
 router.post("/workmodel-selected-ids", getWorkModelSelectedIds);
+
+router.post("/new-post", createNewPost);
 
 export default router;

@@ -121,19 +121,6 @@
   align-self: stretch;
 }
 
-#submit-button {
-  display: flex;
-  height: 28px;
-  width: 382px;
-  min-width: 32px;
-  padding: var(--space-small, 8px);
-  align-items: center;
-  gap: var(--space-small, 8px);
-  align-self: stretch;
-  border-radius: var(--radii-medium, 8px);
-  background: var(--primary-60, #ff800b);
-}
-
 /*      HEADER     */
 .app-ctn .header-ctn {
   position: relative;

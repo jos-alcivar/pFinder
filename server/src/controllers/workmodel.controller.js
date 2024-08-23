@@ -15,15 +15,17 @@ const getWorkModelList = async (req, res) => {
 // --- GET WORK MODEL SELECTED ID  ---
 const getWorkModelSelectedIds = async (req, res) => {
   try {
-    const input = req.body["model"];
-    const placeholders = input.map((_, index) => `$${index + 1}`).join(", ");
-    const query = `SELECT model_id FROM model WHERE model_name IN (${placeholders})`;
+    if (req.body["model"][0]) {
+      const input = req.body["model"];
+      const placeholders = input.map((_, index) => `$${index + 1}`).join(", ");
+      const query = `SELECT model_id FROM model WHERE model_name IN (${placeholders})`;
 
-    const data = await db.query(query, input);
-    const list = data.rows.map((m) => m.model_id);
-    console.log(input);
-    console.log(data.rows);
-    res.send(list);
+      const data = await db.query(query, input);
+      const list = data.rows.map((m) => m.model_id);
+      res.send(list);
+    } else {
+      console.log("empty model array");
+    }
   } catch (err) {
     console.log(err);
     res

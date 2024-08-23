@@ -18,6 +18,13 @@ export function PostForm({
   states,
   cities,
 }) {
+  function disableInput(input) {
+    if (!input) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   return (
     <form id="form-postJob" className="form-ctn">
       <div className="form-job">
@@ -56,6 +63,7 @@ export function PostForm({
           label="State/Province:"
           required
           options={states}
+          disabled={disableInput(post.country_name)}
         />
         <InputItem
           onChange={handleChange}
@@ -65,6 +73,7 @@ export function PostForm({
           label="City:"
           required
           options={cities}
+          disabled={disableInput(post.state_name)}
         />
       </div>
       <hr className="separator"></hr>
@@ -108,6 +117,7 @@ export function PostForm({
           label="Post"
           type="primary"
           onClick={handleSubmitButton}
+          style={{ width: "382px", height: "28px" }}
         />
       </div>
     </form>

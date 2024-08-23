@@ -50,15 +50,12 @@ const getCompaniesbyCity = async (req, res) => {
       return res.status(404).send({ error: "Value not found" });
     }
     const companiesList = data.rows;
-    console.log(companiesList);
     res.send(companiesList);
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .send({
-        error: "An error occurred while retrieving the companies list.",
-      });
+    res.status(500).send({
+      error: "An error occurred while retrieving the companies list.",
+    });
   }
 };
 

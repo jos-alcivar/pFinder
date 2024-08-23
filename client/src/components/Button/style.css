@@ -43,6 +43,11 @@
   animation: SecondaryHoverToDefault 300ms ease-out forwards;
 }
 
+.button.disabled {
+  background: var(--neutral-90, rgb(46, 46, 46));
+  pointer-events: none;
+}
+
 @keyframes PrimaryDefaultToHover {
   0% {
     background-color: var(--primary-60, #ff800b);

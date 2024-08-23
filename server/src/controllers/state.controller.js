@@ -50,7 +50,6 @@ const getStateListbyCountry = async (req, res) => {
       return res.status(404).send({ error: "Value not found" });
     }
     const statesList = data.rows;
-    console.log(statesList);
     res.send(statesList);
   } catch (err) {
     console.log(err);
