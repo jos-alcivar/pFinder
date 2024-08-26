@@ -51,7 +51,6 @@
 -- 	company_id INTEGER NOT NULL,
 -- 	model_id INTEGER[] NOT NULL,
 -- 	date DATE NOT NULL,
--- 	postDetail_id INTEGER UNIQUE
 -- );
 
 -- CREATE TABLE postDetail (
@@ -62,10 +61,6 @@
 -- 	post_id INTEGER UNIQUE,
 -- 	FOREIGN KEY (post_id) REFERENCES post (post_id) ON DELETE CASCADE
 -- );
-
--- ALTER TABLE post
--- ADD CONSTRAINT fk_postDetail
--- FOREIGN KEY (postDetail_id) REFERENCES postDetail (postDetail_id) ON DELETE CASCADE;
 
 -- ALTER TABLE post
 -- ADD CONSTRAINT fk_jobTitle

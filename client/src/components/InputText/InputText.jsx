@@ -46,7 +46,7 @@ export const InputText = (props) => {
         onBlur={() => setIsFocused(false)}
         disabled={props.disabled}
         required={props.required}
-        autoComplete="off"
+        autoComplete="on"
       />
       {suggestions.length > 0 && (
         <ul className="suggestions-list">

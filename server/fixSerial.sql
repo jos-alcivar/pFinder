@@ -1,0 +1,10 @@
+-- SELECT pg_get_serial_sequence('city', 'city_id');
+-- SELECT setval('public.city_city_id_seq', COALESCE(MAX(city_id), 1)) FROM city;
+-- SELECT setval('public.company_company_id_seq', COALESCE(MAX(company_id), 1)) FROM company;
+-- SELECT setval('public.country_country_id_seq', COALESCE(MAX(country_id), 1)) FROM country;
+-- SELECT setval('public.jobtitle_jobtitle_id_seq', COALESCE(MAX(jobtitle_id), 1)) FROM jobtitle;
+-- SELECT setval('public.post_post_id_seq', 1, false);
+-- SELECT setval('public.postdetail_postdetail_id_seq', 1, false);
+-- SELECT setval('public.state_state_id_seq', COALESCE(MAX(state_id), 1)) FROM state;
+SELECT setval('public.post_post_id_seq', COALESCE(MAX(post_id), 1)) FROM post;
+SELECT setval('public.postdetail_postdetail_id_seq', COALESCE(MAX(postdetail_id), 1)) FROM postdetail;

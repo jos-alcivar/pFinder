@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Post from "./pages/Post";
 import Home from "./pages/Home";
+import Jobs from "./pages/Jobs";
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/post" element={<Post />} />
+          <Route path="/posts" element={<Post />} />
+          <Route path="/jobs" element={<Jobs />} />
         </Routes>
       </BrowserRouter>
     </>

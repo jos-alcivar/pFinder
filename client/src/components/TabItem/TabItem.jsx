@@ -3,11 +3,26 @@ import { useReducer } from "react";
 import "./style.css";
 import CustomIconLoader from "../CustomIconLoader/CustomIconLoader";
 
-export const TabItem = ({ label, status }) => {
+export const TabItem = ({ label, status, onClick }) => {
   const [state, dispatch] = useReducer(reducer, {
     label: label || "",
     status: status || "default",
   });
+
+  const changeClickStatus = () => {
+    if (state.status !== "disabled") {
+      state.status === "clicked" || state.status === "clicked-hover"
+        ? dispatch("mouse_leave")
+        : dispatch("mouse_click");
+    }
+  };
+
+  const handleClick = (event) => {
+    changeClickStatus();
+    if (onClick) {
+      onClick(event);
+    }
+  };
 
   return (
     <div className={`buttonTab-ctn ${state.status}`}>
@@ -27,13 +42,7 @@ export const TabItem = ({ label, status }) => {
               : dispatch("mouse_enter");
           }
         }}
-        onClick={() => {
-          if (state.status !== "disabled") {
-            state.status === "clicked" || state.status === "clicked-hover"
-              ? dispatch("mouse_leave")
-              : dispatch("mouse_click");
-          }
-        }}
+        onClick={handleClick}
       >
         <CustomIconLoader label={state.label} size="20px" />
       </div>
@@ -75,5 +84,6 @@ function reducer(state, action) {
 
 TabItem.propTypes = {
   label: PropTypes.string,
+  onClick: PropTypes.func,
   status: PropTypes.oneOf(["hover", "default", "clicked", "disabled"]),
 };

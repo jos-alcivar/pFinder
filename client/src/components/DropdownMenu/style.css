@@ -1,10 +1,11 @@
 .buttonFilter-ctn {
   display: inline-flex;
-  height: 2rem;
-  min-width: 2rem;
-  padding: var(--space-small, 0.5rem);
+  display: flex;
+  height: 32px;
+  min-width: 32px;
+  padding: var(--space-small, 8px);
   align-items: center;
-  gap: var(--space-small, 0.5rem);
+  gap: var(--space-small, 8px);
   flex-shrink: 0;
 }
 /* DROPDOWN MENU */
@@ -79,17 +80,18 @@
 
 .option-item {
   display: flex;
-  width: 12.25rem;
-  padding: var(--space-small, 0.5rem) 0rem;
+  width: 196px;
+  padding: var(--space-small, 8px) 0px;
+
   align-items: center;
-  gap: var(--space-small, 0.5rem);
+  gap: var(--space-small, 8px);
 }
 
 .option-item .input-check {
   display: flex;
-  width: var(--font-size-midScreen-medium, 1.125rem);
-  height: var(--font-size-midScreen-medium, 1.125rem);
-  padding: var(--space-zero, 0rem) 0rem;
+  width: var(--font-size-midScreen-medium, 18px);
+  height: var(--font-size-midScreen-medium, 18px);
+  padding: var(--space-zero, 0px) 0px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -133,7 +135,7 @@ input[type="checkbox"]:checked::after {
 /*      INPUT TEXT        */
 .option-item .input-txt {
   display: flex;
-  width: 10.625rem;
+  width: 170px;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
@@ -160,10 +162,11 @@ input[type="checkbox"]:checked::after {
 
 .dropdown-menu-ctn .button-container {
   display: flex;
-  padding: 1rem 1rem 0rem 1rem;
+  padding: var(--space-large, 16px) var(--space-large, 16px) 0px
+    var(--space-large, 16px);
   justify-content: flex-end;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-large, 16px);
   align-self: stretch;
 }
 

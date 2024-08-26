@@ -1,10 +1,10 @@
 .cardPost-ctn {
   display: flex;
-  width: 24.6875rem;
-  height: 11.25rem;
-  padding: var(--space-small, 0.5rem) var(--space-large, 1rem);
+  width: 363px;
+  height: 164px;
+  padding: var(--space-small, 8px) var(--space-large, 16px);
   align-items: center;
-  gap: var(--space-small, 0.5rem);
+  gap: var(--space-small, 8px);
   flex-shrink: 0;
 
   border-radius: var(--radii-medium, 0.5rem);

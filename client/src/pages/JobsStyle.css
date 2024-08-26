@@ -1,0 +1,17 @@
+.filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 80px 17.5px 0px 17.5px;
+  width: 395px;
+}
+
+.filter .posts {
+  display: flex;
+  width: 395px;
+  padding-bottom: 96px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xxl, 24px);
+}

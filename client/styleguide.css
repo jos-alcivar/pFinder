@@ -92,3 +92,7 @@
   --font-family-primary: "Consolas";
   --font-family-secondary: "Saira Condensed";
 }
+
+body {
+  margin: 0;
+}

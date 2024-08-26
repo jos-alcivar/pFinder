@@ -28,6 +28,7 @@ import {
   getCompaniesbyCity,
 } from "../controllers/company.controller.js";
 import { createNewPost } from "../controllers/post.cotroller.js";
+import { getJobPostDefault } from "../controllers/cardPost.controller.js";
 
 const router = Router();
 
@@ -41,6 +42,8 @@ router.get("/countries", getCountryList);
 router.get("/experience-level", getExperienceList);
 router.get("/job-titles", getJobTitleList);
 router.get("/work-model", getWorkModelList);
+
+router.get("/job-post-list", getJobPostDefault);
 
 // --- POST METHODS ---
 router.post("/job-title-id", getJobTitleId);

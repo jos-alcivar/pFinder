@@ -20,6 +20,7 @@ import {
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
 import "./style.css";
+import "./PostStyle.css";
 
 function Post() {
   const [cities, setCities] = useCity();
@@ -99,7 +100,7 @@ function Post() {
               body: JSON.stringify(updatedPost),
             });
             alert("Form Submitted!");
-
+            navigate(0);
             return updatedPost;
           });
           // Proceed with form submission or further processing
@@ -112,7 +113,7 @@ function Post() {
 
   return (
     <div className="app-ctn">
-      <Header />
+      <Header title={"Create new post"} />
       <div className="body-ctn">
         <div className="content-ctn">
           <PostForm

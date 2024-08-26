@@ -2,9 +2,8 @@ import db from "../../db.js";
 
 const createNewPost = async (req, res) => {
   try {
-    let temp_id;
     const input = req.body;
-    const {
+    let {
       jobtitle_id,
       experience_id,
       country_id,
@@ -16,69 +15,81 @@ const createNewPost = async (req, res) => {
       link,
     } = input;
 
-    // --- GET LAST POST ID ---
-    const lastID = await db.query(
-      "SELECT post_id FROM post ORDER BY post_id DESC LIMIT 1"
-    );
-    if (lastID.rows.length === 0) {
-      temp_id = 1;
-    } else {
-      temp_id = lastID.rows[0];
-    }
-
-    // --- ADD ROW IN JOB TITLE TABLE ---
+    // --- INSERT INTO JOB TITLE TABLE ---
     if (!input.jobtitle_exist) {
       const { jobtitle_name } = input;
-      await db.query("INSERT INTO jobtitle (jobtitle_name) VALUES $1", [
-        jobtitle_name,
-      ]);
+      const jobTitleResult = await db.query(
+        "INSERT INTO jobtitle (jobtitle_name) VALUES ($1) RETURNING jobtitle_id",
+        [jobtitle_name]
+      );
+      jobtitle_id = jobTitleResult.rows[0].jobtitle_id;
       console.log("New job title: ", jobtitle_name);
     }
-    // --- ADD ROW IN COUNTRY TABLE ---
+
+    // --- INSERT INTO COUNTRY TABLE ---
     if (!input.country_exist) {
       const { country_name } = input;
-      await db.query("INSERT INTO country (country_name) VALUES $1", [
-        country_name,
-      ]);
+      const countryResult = await db.query(
+        "INSERT INTO country (country_name) VALUES ($1) RETURNING country_id",
+        [country_name]
+      );
+      country_id = countryResult.rows[0].country_id;
       console.log("New country: ", country_name);
     }
-    // --- ADD ROW IN STATE TABLE ---
+
+    // --- INSERT INTO STATE TABLE ---
     if (!input.state_exist) {
       const { state_name } = input;
-      await db.query(
-        "INSERT INTO state (country_id, state_name) VALUES ($1, $2)",
+      const stateResult = await db.query(
+        "INSERT INTO state (country_id, state_name) VALUES ($1, $2) RETURNING state_id",
         [country_id, state_name]
       );
+      state_id = stateResult.rows[0].state_id;
       console.log("New state: ", state_name);
     }
-    // --- ADD ROW IN CITY TABLE ---
+
+    // --- INSERT INTO CITY TABLE ---
     if (!input.city_exist) {
       const { city_name } = input;
-      await db.query(
-        "INSERT INTO city (country_id, state_id, city_name) VALUES ($1, $2, $3)",
+      const cityResult = await db.query(
+        "INSERT INTO city (country_id, state_id, city_name) VALUES ($1, $2, $3) RETURNING city_id",
         [country_id, state_id, city_name]
       );
+      city_id = cityResult.rows[0].city_id;
       console.log("New city: ", city_name);
     }
-    // --- ADD ROW IN JOB COMPANY TABLE ---
+
+    // --- INSERT INTO COMPANY TABLE ---
     if (!input.company_exist) {
       const { company_name } = input;
-      await db.query(
-        "INSERT INTO state (city_id, company_name) VALUES ($1, $2)",
+      const companyResult = await db.query(
+        "INSERT INTO company (city_id, company_name) VALUES ($1, $2) RETURNING company_id",
         [city_id, company_name]
       );
+      company_id = companyResult.rows[0].company_id;
       console.log("New company: ", company_name);
     }
 
-    /// --- ADD ROW IN POST TABLE ---
-    await db.query(
-      "INSERT INTO post (jobtitle_id, experience_id, company_id, model_id, date, postdetail_id) VALUES ($1, $2, $3, $4, $5, $6)",
-      [jobtitle_id, experience_id, company_id, model_id, date, temp_id]
+    // --- INSERT INTO POST TABLE ---
+    const postResult = await db.query(
+      "INSERT INTO post (jobtitle_id, experience_id, company_id, model_id, date) VALUES ($1, $2, $3, $4, $5) RETURNING post_id",
+      [jobtitle_id, experience_id, company_id, model_id, date]
     );
-    /// --- ADD ROW IN POST DETAIL TABLE ---
-    await db.query("INSERT INTO postdetail(contact) VALUES $1", [link]);
+    const post_id = postResult.rows[0].post_id;
+
+    // --- INSERT INTO POST DETAIL TABLE ---
+    await db.query("INSERT INTO postdetail(post_id, contact) VALUES ($1, $2)", [
+      post_id,
+      link,
+    ]);
+
+    console.log("New post created successfully");
+    res.status(201).json({ message: "New post created successfully", post_id });
   } catch (err) {
     console.log(err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the post" });
   }
 };
 

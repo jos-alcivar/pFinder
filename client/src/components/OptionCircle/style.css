@@ -1,12 +1,12 @@
 .optionCircle {
   display: flex;
-  width: 2rem;
-  height: 2rem;
-  padding: var(--space-xxs, 0.25rem);
+  width: 32px;
+  height: 32px;
+  padding: var(--space-xxs, 4px);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--space-medium, 0.75rem);
+  gap: var(--space-medium, 12px);
   flex-shrink: 0;
 
   border-radius: var(--radii-xxl, 4rem);
