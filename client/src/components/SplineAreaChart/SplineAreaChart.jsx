@@ -5,11 +5,7 @@ import "./style.css";
 
 export const SplineAreaChart = (props) => {
   return (
-    <ResponsiveContainer
-      width={395}
-      height={354.366}
-      className="graphic_vector"
-    >
+    <ResponsiveContainer width={395} height={354} className="graphic_vector">
       <AreaChart
         data={props.data}
         margin={{ top: 8, right: 0, left: 0, bottom: 8 }}

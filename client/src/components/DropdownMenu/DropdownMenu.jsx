@@ -1,17 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Option } from "../Option";
+import { FilterOption } from "../FilterOption";
 import { Button } from "../Button";
 import "./style.css";
 
-export const DropdownMenu = () => {
-  const myList = [
-    "option 1",
-    "option 2",
-    "option 3",
-    "option 4",
-    "option 5",
-    "option 6",
-  ]; // Array of items
+export const DropdownMenu = (props) => {
   const [isOpen, setIsOpen] = useState(false); // State to control the dropdown visibility
   const [selectedOptions, setSelectedOptions] = useState([]); // State to track selected checkboxes
   const [tempSelectedOptions, setTempSelectedOptions] = useState([]); // Temporary state to track changes
@@ -38,18 +31,31 @@ export const DropdownMenu = () => {
   const applyChanges = () => {
     setSelectedOptions(tempSelectedOptions); // Save the temporary state to the main state
     setIsOpen(false);
+    console.log("temp", tempSelectedOptions);
+    console.log("selected", selectedOptions);
+    // Update type based on the presence of selected options
+    props.onTypeChange(
+      tempSelectedOptions.length > 0 ? "selected" : "unselected"
+    );
   };
 
   // Cancel changes and close the dropdown
   const cancelChanges = () => {
     setTempSelectedOptions(selectedOptions); // Revert temporary state to the main state
     setIsOpen(false);
+    // Revert type to 'selected' or 'unselected' based on previous state
+    props.onTypeChange(selectedOptions.length > 0 ? "selected" : "unselected");
   };
 
   return (
     <div>
       <div onClick={toggleDropdown}>
-        <Option>Select Options</Option>
+        <FilterOption
+          label={props.label}
+          type={props.type}
+          onTypeChange={props.onTypeChange}
+          isEmpty={tempSelectedOptions.length === 0} // Set isEmpty based on tempSelectedOptions length
+        />
       </div>
       {isOpen && (
         <div className="dropdown-menu-ctn">
@@ -66,13 +72,21 @@ export const DropdownMenu = () => {
                 type="checkbox"
                 className="input-check"
                 value="select all"
+                onChange={(e) => {
+                  const isChecked = e.target.checked;
+                  if (isChecked) {
+                    setTempSelectedOptions(props.optionList);
+                  } else {
+                    setTempSelectedOptions([]);
+                  }
+                }}
               />
               <span className="input-txt">{"Select All"}</span>
             </label>
           </div>
           <div className="option-menu-ctn">
             <div className="option-menu">
-              {myList.map((item) => (
+              {props.optionList.map((item) => (
                 <div key={item}>
                   <label className="option-item">
                     <input

@@ -10,6 +10,7 @@
 }
 /* DROPDOWN MENU */
 .dropdown-menu-ctn {
+  position: absolute;
   display: flex;
   width: 228px;
   height: 336px;

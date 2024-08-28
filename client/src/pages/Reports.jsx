@@ -15,7 +15,7 @@ function Reports() {
   const [dateRange, setDateRange] = useDateRange();
   const [filterOptions, setFilterOptions] = useFilterOptions();
   const dateList = jobPost.map((post) => post.date);
-  console.log("This is the dateList", dateList);
+  // console.log("This is the dateList", dateList);
 
   const dateCounts = dateList.reduce((acc, date) => {
     const formattedDate = new Date(date).toLocaleDateString("en-US", {
@@ -26,7 +26,7 @@ function Reports() {
     acc[formattedDate] = (acc[formattedDate] || 0) + 1;
     return acc;
   }, {});
-  console.log("This is the dateCounts", dateCounts);
+  // console.log("This is the dateCounts", dateCounts);
 
   const resultArray = Object.keys(dateCounts)
     .map((date) => ({
@@ -34,7 +34,7 @@ function Reports() {
       oppenings: dateCounts[date],
     }))
     .reverse();
-  console.log("This is the result array", resultArray);
+  // console.log("This is the result array", resultArray);
 
   return (
     <div className="app-ctn">
