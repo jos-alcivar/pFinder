@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import "./style.css";
 
 export const OptionCircle = ({
@@ -8,48 +8,48 @@ export const OptionCircle = ({
   type = "unselected",
   onTypeChange,
 }) => {
-  const [state, dispatch] = useReducer(reducer, { label, status, type });
+  const [state, dispatch] = useReducer(reducer, { status, type });
+
+  useEffect(() => {
+    dispatch({ type: "set_type", newType: type });
+  }, [type]);
 
   const handleMouseLeave = () => {
-    dispatch("mouse_leave");
-    onTypeChange && onTypeChange(state.type);
+    dispatch({ type: "mouse_leave" });
   };
 
   const handleMouseEnter = () => {
-    dispatch("mouse_enter");
-    onTypeChange && onTypeChange(state.type);
+    dispatch({ type: "mouse_enter" });
   };
 
   const handleClick = () => {
-    dispatch(state.type === "unselected" ? "mouse_select" : "mouse_unselect");
-    onTypeChange && onTypeChange(state.type);
+    if (state.type !== "selected") {
+      onTypeChange();
+    }
   };
 
   return (
     <div
-      className={`optionCircle ${state.type} ${state.status} ${state.label}`}
+      className={`optionCircle ${state.type} ${state.status}`}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onClick={handleClick}
     >
-      <div className="text-option">{state.label}</div>
+      <div className="text-option">{label}</div>
     </div>
   );
 };
 
 function reducer(state, action) {
-  switch (action) {
+  switch (action.type) {
     case "mouse_enter":
       return { ...state, status: "hover" };
 
     case "mouse_leave":
       return { ...state, status: "default" };
 
-    case "mouse_select":
-      return { ...state, type: "selected" };
-
-    case "mouse_unselect":
-      return { ...state, type: "unselected" };
+    case "set_type":
+      return { ...state, type: action.newType };
 
     default:
       return state;
@@ -59,6 +59,6 @@ function reducer(state, action) {
 OptionCircle.propTypes = {
   label: PropTypes.string,
   status: PropTypes.string,
-  onTypeChange: PropTypes.func,
   type: PropTypes.string,
+  onTypeChange: PropTypes.func,
 };

@@ -42,9 +42,9 @@
 
   /* xl/primary/base */
   font-family: var(--font-family-primary, Consolas);
-  font-size: var(--font-size-mobile-xl, 1.5625rem);
+  font-size: var(--font-size-mobile-large, 1.5625rem);
   font-style: normal;
-  font-weight: var(--font-weight-bold, 700);
+  font-weight: var(--font-weight-bolder, 900);
   line-height: 150%; /* 2.34375rem */
 }
 

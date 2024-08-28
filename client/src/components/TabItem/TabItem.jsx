@@ -3,22 +3,24 @@ import { useReducer } from "react";
 import "./style.css";
 import CustomIconLoader from "../CustomIconLoader/CustomIconLoader";
 
-export const TabItem = ({ label, status, onClick }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    label: label || "",
-    status: status || "default",
-  });
+export const TabItem = ({
+  label = "",
+  status = "default",
+  type = "unselected",
+  onClick,
+}) => {
+  const [state, dispatch] = useReducer(reducer, { label, status, type });
 
-  const changeClickStatus = () => {
-    if (state.status !== "disabled") {
-      state.status === "clicked" || state.status === "clicked-hover"
-        ? dispatch("mouse_leave")
-        : dispatch("mouse_click");
-    }
+  const handleMouseLeave = () => {
+    dispatch("mouse_leave");
+  };
+
+  const handleMouseEnter = () => {
+    dispatch("mouse_enter");
   };
 
   const handleClick = (event) => {
-    changeClickStatus();
+    dispatch(state.type === "unselected" ? "mouse_select" : "mouse_unselect");
     if (onClick) {
       onClick(event);
     }
@@ -27,26 +29,14 @@ export const TabItem = ({ label, status, onClick }) => {
   return (
     <div className={`buttonTab-ctn ${state.status}`}>
       <div
-        className={`buttonTab ${state.label} ${state.status}`}
-        onMouseLeave={() => {
-          if (state.status !== "disabled") {
-            state.status === "clicked" || state.status === "clicked-hover"
-              ? dispatch("mouse_click")
-              : dispatch("mouse_leave");
-          }
-        }}
-        onMouseEnter={() => {
-          if (state.status !== "disabled") {
-            state.status === "clicked"
-              ? dispatch("mouse_click_enter")
-              : dispatch("mouse_enter");
-          }
-        }}
+        className={`buttonTab ${state.type} ${state.label} ${state.status}`}
+        onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleMouseEnter}
         onClick={handleClick}
       >
         <CustomIconLoader label={state.label} size="20px" />
       </div>
-      <div className={`text-button ${state.status}`}>
+      <div className={`text-button ${state.type} ${state.status}`}>
         <>{state.label}</>
       </div>
     </div>
@@ -56,34 +46,25 @@ export const TabItem = ({ label, status, onClick }) => {
 function reducer(state, action) {
   switch (action) {
     case "mouse_enter":
-      return {
-        ...state,
-        status: "hover",
-      };
+      return { ...state, status: "hover" };
 
     case "mouse_leave":
-      return {
-        ...state,
-        status: "default",
-      };
-    case "mouse_click":
-      return {
-        ...state,
-        status: "clicked",
-      };
+      return { ...state, status: "default" };
 
-    case "mouse_click_enter":
-      return {
-        ...state,
-        status: "clicked-hover",
-      };
+    case "mouse_select":
+      return { ...state, type: "selected" };
+
+    case "mouse_unselect":
+      return { ...state, type: "unselected" };
+
+    default:
+      return state;
   }
-
-  return state;
 }
 
 TabItem.propTypes = {
   label: PropTypes.string,
+  status: PropTypes.string,
   onClick: PropTypes.func,
-  status: PropTypes.oneOf(["hover", "default", "clicked", "disabled"]),
+  type: PropTypes.string,
 };

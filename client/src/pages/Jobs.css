@@ -8,6 +8,8 @@
 }
 
 .filter .posts {
+  position: absolute;
+  top: 80px;
   display: flex;
   width: 395px;
   padding-bottom: 96px;

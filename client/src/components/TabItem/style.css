@@ -22,11 +22,11 @@
   stroke: var(--primary-50, #ff910b);
 }
 
-.buttonTab.clicked path {
+.buttonTab.selected path {
   stroke: var(--primary-60, #ff800b);
 }
 
-.buttonTab.clicked-hover path {
+.buttonTab.selected.hover path {
   stroke: var(--primary-60, #ff800b);
 }
 
@@ -45,12 +45,12 @@
   fill: var(--primary-60, #ff800b);
 }
 
-.account.clicked path {
+.account.selected path {
   stroke: none;
   fill: var(--primary-60, #ff800b);
 }
 
-.account.clicked-hover path {
+.account.selected.hover path {
   stroke: none;
   fill: var(--primary-60, #ff800b);
 }
@@ -74,18 +74,18 @@
   text-transform: capitalize;
 }
 /* TEXT ANIMATED STATES */
-.buttonTab-ctn .text-button.default {
-  animation: primaryToDefault 300ms ease-out forwards;
+.buttonTab-ctn .text-button.unselected.default {
+  animation: hoverToUnselected 300ms ease-out forwards;
 }
 
-.buttonTab-ctn .text-button.hover {
-  animation: primaryToHover 300ms ease-out forwards;
+.buttonTab-ctn .text-button.unselected.hover {
+  animation: unselectedToHover 300ms ease-out forwards;
 }
-.buttonTab-ctn .text-button.clicked {
+.buttonTab-ctn .text-button.selected.default {
   color: var(--primary-60, #ff800b);
 }
-.buttonTab-ctn .text-button.clicked-hover {
-  animation: primaryToHover 300ms ease-out forwards;
+.buttonTab-ctn .text-button.selected.hover {
+  animation: selectedToHover 300ms ease-out forwards;
 }
 
 /* TAB ANIMATED STATES */
@@ -93,7 +93,7 @@
   border-top: 2px solid var(--primary-60, #ff800b);
 }
 
-.buttonTab-ctn.clicked-hover {
+.buttonTab-ctn.selected.hover {
   border-top: 2px solid var(--primary-60, #ff800b);
 }
 
@@ -102,20 +102,60 @@
   cursor: none;
 }
 
-@keyframes primaryToHover {
+@keyframes unselectedToHover {
   0% {
     color: var(--onText-neutralDark, #fff);
+    fill: var(--onText-neutralDark, #fff);
+  }
+  100% {
+    color: var(--primary-60, #ff800b);
+    fill: var(--primary-60, #ff800b);
+  }
+}
+
+@keyframes hoverToUnselected {
+  0% {
+    color: var(--primary-60, #ff800b);
+    fill: var(--primary-60, #ff800b);
+  }
+  100% {
+    color: var(--onText-neutralDark, #fff);
+    fill: var(--onText-neutralDark, #fff);
+  }
+}
+
+@keyframes selectedToHover {
+  0% {
+    color: var(--primary-60, #ff800b);
+  }
+  100% {
+    color: var(--primary-50, #ff800b);
+  }
+}
+
+@keyframes hoverToSelected {
+  0% {
+    color: var(--primary-50, #ff800b);
   }
   100% {
     color: var(--primary-60, #ff800b);
   }
 }
 
-@keyframes primaryToDefault {
+@keyframes PathUnselectedToHover {
   0% {
-    color: var(--primary-60, #ff800b);
+    fill: var(--onText-neutralDark, #fff);
   }
   100% {
-    color: var(--onText-neutralDark, #fff);
+    fill: var(--primary-60, #ff800b);
+  }
+}
+
+@keyframes PathHoverToUnselected {
+  0% {
+    fill: var(--primary-60, #ff800b);
+  }
+  100% {
+    fill: var(--onText-neutralDark, #fff);
   }
 }

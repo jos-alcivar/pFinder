@@ -3,10 +3,10 @@ import db from "../../db.js";
 // --- GET COMPANY ID  ---
 const getCompanyId = async (req, res) => {
   try {
-    const input = req.body["company"];
+    const { company_name, city_id } = req.body;
     const data = await db.query(
-      "SELECT company_id FROM company WHERE company_name LIKE $1",
-      [input]
+      "SELECT company_id FROM company WHERE company_name LIKE $1 AND city_id = $2",
+      [company_name, city_id]
     );
 
     // Check if any row was returned

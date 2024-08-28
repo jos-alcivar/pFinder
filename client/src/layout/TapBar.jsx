@@ -1,7 +1,8 @@
+import PropTypes from "prop-types";
 import { TabItem } from "../components/TabItem";
 import { useNavigate } from "react-router-dom";
 
-function TabBar() {
+function TabBar(props) {
   const navigate = useNavigate();
 
   function clickToJobs(label) {
@@ -28,13 +29,36 @@ function TabBar() {
   return (
     <div className="tabBar-ctn">
       <div className="buttons-row">
-        <TabItem label="posts" onClick={() => clickToJobs("posts")} />
-        <TabItem label="reports" onClick={() => clickToJobs("reports")} />
-        <TabItem label="jobs" onClick={() => clickToJobs("jobs")} />
-        <TabItem label="account" onClick={() => clickToJobs("account")} />
+        <TabItem
+          label="posts"
+          onClick={() => clickToJobs("posts")}
+          type={props.posts}
+        />
+        <TabItem
+          label="reports"
+          onClick={() => clickToJobs("reports")}
+          type={props.reports}
+        />
+        <TabItem
+          label="jobs"
+          onClick={() => clickToJobs("jobs")}
+          type={props.jobs}
+        />
+        <TabItem
+          label="account"
+          onClick={() => clickToJobs("account")}
+          type={props.account}
+        />
       </div>
     </div>
   );
 }
 
 export default TabBar;
+
+TabBar.propTypes = {
+  account: PropTypes.string,
+  jobs: PropTypes.string,
+  posts: PropTypes.string,
+  reports: PropTypes.string,
+};

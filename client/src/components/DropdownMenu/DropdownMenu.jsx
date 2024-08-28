@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Option } from "../Option";
-import "./style.css";
 import { Button } from "../Button";
+import "./style.css";
 
-const DropdownMenu = () => {
+export const DropdownMenu = () => {
   const myList = [
     "option 1",
     "option 2",
@@ -107,5 +107,3 @@ const DropdownMenu = () => {
     </div>
   );
 };
-
-export default DropdownMenu;

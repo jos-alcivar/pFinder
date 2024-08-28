@@ -60,7 +60,7 @@ const createNewPost = async (req, res) => {
     }
 
     // --- INSERT INTO COMPANY TABLE ---
-    if (!input.company_exist) {
+    if (!input.company_exist || (input.company_exist && !input.city_exist)) {
       const { company_name } = input;
       const companyResult = await db.query(
         "INSERT INTO company (city_id, company_name) VALUES ($1, $2) RETURNING company_id",

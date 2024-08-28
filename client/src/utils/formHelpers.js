@@ -165,12 +165,12 @@ export async function fetchAndSetCity(citySelected, setPost, setCompanies) {
 }
 
 // Fetch the Company ID and update the post state
-export async function fetchAndSetCompany(companySelected, setPost) {
+export async function fetchAndSetCompany(companySelected, city_id, setPost) {
   try {
     const response = await fetch("http://localhost:3000/company-id", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ company: companySelected }),
+      body: JSON.stringify({ company_name: companySelected, city_id: city_id }),
     });
     if (response.ok) {
       const data = await response.json();

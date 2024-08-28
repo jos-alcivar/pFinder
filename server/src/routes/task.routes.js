@@ -28,7 +28,7 @@ import {
   getCompaniesbyCity,
 } from "../controllers/company.controller.js";
 import { createNewPost } from "../controllers/post.cotroller.js";
-import { getJobPostDefault } from "../controllers/cardPost.controller.js";
+import { getJobPostDefault } from "../controllers/jobposts.controller.js";
 
 const router = Router();
 

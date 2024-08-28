@@ -20,7 +20,7 @@ import {
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
 import "./style.css";
-import "./PostStyle.css";
+import "./Post.css";
 
 function Post() {
   const [cities, setCities] = useCity();
@@ -73,7 +73,7 @@ function Post() {
         break;
       }
       case "company_name": {
-        await fetchAndSetCompany(value, setPost);
+        await fetchAndSetCompany(value, post.city_id, setPost);
         break;
       }
     }
@@ -133,7 +133,7 @@ function Post() {
         </div>
       </div>
 
-      <TabBar />
+      <TabBar posts={"selected"} />
     </div>
   );
 }

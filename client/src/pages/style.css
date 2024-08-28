@@ -6,26 +6,40 @@
 }
 
 .app-ctn .body-ctn {
+  position: absolute;
+  top: 54px;
+  bottom: -21px;
   display: flex;
   width: 1920px;
-  margin: 54px 0px -21px 0px;
+  height: 496px;
+  padding: 118px 0 264px 0;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
 }
 
 .body-ctn .content-ctn {
+  position: absolute;
+  top: 118px;
+  bottom: 264px;
   display: flex;
   width: 430px;
-  padding-bottom: 96px;
+  height: 496px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
 }
 
+.body-ctn .content-ctn .filter {
+  width: 430px;
+  height: 496px;
+}
+
 /*      HEADER     */
 .app-ctn .header-ctn {
+  position: relative;
+  top: 54px;
   display: flex;
   width: 1920px;
   height: 92px;

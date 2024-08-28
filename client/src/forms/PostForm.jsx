@@ -86,6 +86,7 @@ export function PostForm({
           label="Company:"
           required
           options={companies}
+          disabled={disableInput(post.city_name)}
         />
         <InputItem
           onChange={handleChange}

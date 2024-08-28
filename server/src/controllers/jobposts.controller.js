@@ -5,7 +5,7 @@ const getJobPostDefault = async (req, res) => {
   try {
     // --- SQL COMMANDS ---
     const columns =
-      "jobtitle.jobtitle_name, ARRAY_AGG(DISTINCT experience.level ORDER BY experience.level) AS experience, company.company_name, country.country_name, state.state_name, city.city_name, ARRAY_AGG(DISTINCT model.model_name ORDER BY model.model_name) AS model";
+      "post.post_id, post.date, jobtitle.jobtitle_name, ARRAY_AGG(DISTINCT experience.level ORDER BY experience.level) AS experience, company.company_name, country.country_name, state.state_name, city.city_name, ARRAY_AGG(DISTINCT model.model_name ORDER BY model.model_name) AS model";
     const join_jobtitle =
       "JOIN jobtitle ON post.jobtitle_id = jobtitle.jobtitle_id";
     const join_experience =
@@ -17,7 +17,8 @@ const getJobPostDefault = async (req, res) => {
       "JOIN country ON state.country_id = country.country_id";
     const join_model = "JOIN model ON model.model_id = ANY(post.model_id)";
     const group_by =
-      "GROUP BY jobtitle.jobtitle_name, company.company_name, country.country_name, state.state_name, city.city_name";
+      "GROUP BY post.post_id, post.date, jobtitle.jobtitle_name, company.company_name, country.country_name, state.state_name, city.city_name";
+    const order_by = "ORDER BY post.post_id DESC";
     // --- MERGE INTO ONE STRING ---
     const query = `
       SELECT ${columns}
@@ -30,6 +31,7 @@ const getJobPostDefault = async (req, res) => {
       ${join_country}
       ${join_model}
       ${group_by}
+      ${order_by}
     `;
 
     const data = await db.query(query);
