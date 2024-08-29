@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unknown-property */
+import { useState } from "react";
 import { useJobPost } from "../hooks/useJobPost";
 import { useDateRange } from "../hooks/useDateRange";
 import { useFilterOptions } from "../hooks/useFilterOptions";
@@ -11,32 +12,35 @@ import "./Reports.css";
 import "./style.css";
 
 function Reports() {
-  const [jobPost] = useJobPost();
-  const [dateRange, setDateRange] = useDateRange();
-
+  // State to store dropdown data
+  const [dropdownData, setDropdownData] = useState({});
   const [filterOptions, setFilterOptions] = useFilterOptions();
 
-  const dateList = jobPost.map((post) => post.date);
-  // console.log("This is the dateList", dateList);
+  const handleDropdownDataChange = (data) => {
+    setDropdownData((prevData) => ({
+      ...prevData,
+      [data.label]: data.selectedOptions,
+    }));
+  };
 
+  const [jobPost] = useJobPost();
+  const [dateRange, setDateRange] = useDateRange();
+  const dateList = jobPost.map((post) => post.date);
   const dateCounts = dateList.reduce((acc, date) => {
     const formattedDate = new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
-    }); // Format the date to "Month Day, Year"
+    });
     acc[formattedDate] = (acc[formattedDate] || 0) + 1;
     return acc;
   }, {});
-  // console.log("This is the dateCounts", dateCounts);
-
   const resultArray = Object.keys(dateCounts)
     .map((date) => ({
       date,
       oppenings: dateCounts[date],
     }))
     .reverse();
-  // console.log("This is the result array", resultArray);
 
   return (
     <div className="app-ctn">
@@ -47,6 +51,7 @@ function Reports() {
             <FilterOptions
               filterOptions={filterOptions}
               setFilterOptions={setFilterOptions}
+              onDropdownDataChange={handleDropdownDataChange} // Pass the callback
             />
             <div className="stats-ctn">
               <div className="graphics">

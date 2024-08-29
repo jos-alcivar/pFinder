@@ -28,7 +28,10 @@ import {
   getCompaniesbyCity,
 } from "../controllers/company.controller.js";
 import { createNewPost } from "../controllers/post.cotroller.js";
-import { getJobPostDefault } from "../controllers/jobposts.controller.js";
+import {
+  getJobPostDefault,
+  getJobPostFiltered,
+} from "../controllers/jobposts.controller.js";
 
 const router = Router();
 
@@ -58,5 +61,5 @@ router.post("/states&provinces-by-country", getStateListbyCountry);
 router.post("/workmodel-selected-ids", getWorkModelSelectedIds);
 
 router.post("/new-post", createNewPost);
-
+router.post("/filter-job-post-list", getJobPostFiltered);
 export default router;

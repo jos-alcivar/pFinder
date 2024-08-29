@@ -4,7 +4,6 @@ import { FilterOption } from "../FilterOption";
 import { Button } from "../Button";
 import "./style.css";
 
-// Define the initial state and reducer function
 const initialState = {
   selectedOptions: [],
   tempSelectedOptions: [],
@@ -65,10 +64,10 @@ export const DropdownMenu = ({
   onTypeChange,
   isOpen,
   onToggle,
+  onApplyChanges,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // Effect to sync tempSelectedOptions with selectedOptions when dropdown opens
   useEffect(() => {
     if (isOpen) {
       dispatch({
@@ -82,7 +81,6 @@ export const DropdownMenu = ({
     }
   }, [isOpen, state.selectedOptions, optionList.length]);
 
-  // Handle checkbox changes
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     dispatch({
@@ -95,7 +93,6 @@ export const DropdownMenu = ({
     });
   };
 
-  // Handle "Select All" checkbox change
   const handleSelectAllChange = (event) => {
     const { checked } = event.target;
     dispatch({
@@ -107,26 +104,31 @@ export const DropdownMenu = ({
     });
   };
 
-  // Apply changes and close the dropdown
   const applyChanges = () => {
     dispatch({
       type: "APPLY_CHANGES",
       payload: { totalOptions: optionList.length },
     });
-    onToggle(); // Close the dropdown
+    onToggle();
     onTypeChange(
       state.tempSelectedOptions.length > 0 ? "selected" : "unselected"
     );
+
+    if (onApplyChanges) {
+      onApplyChanges({
+        label,
+        selectedOptions: state.tempSelectedOptions,
+      });
+    }
   };
 
-  // Cancel changes and close the dropdown
   const cancelChanges = () => {
     dispatch({
       type: "CANCEL_CHANGES",
       payload: { totalOptions: optionList.length },
     });
-    onToggle(); // Close the dropdown
-    onTypeChange("unselected"); // Reset type to 'unselected'
+    onToggle();
+    onTypeChange("unselected");
   };
 
   return (
@@ -136,7 +138,7 @@ export const DropdownMenu = ({
           label={label}
           type={type}
           onTypeChange={onTypeChange}
-          isEmpty={state.tempSelectedOptions.length === 0} // Set isEmpty based on optionList length
+          isEmpty={state.tempSelectedOptions.length === 0}
         />
       </div>
       {isOpen && (
@@ -173,17 +175,14 @@ export const DropdownMenu = ({
                       onChange={handleCheckboxChange}
                     />
                     <span className="input-txt">
-                      {item.charAt(0).toUpperCase() + item.slice(1)}{" "}
-                      {/* Capitalizes the first letter */}
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
                     </span>
                   </label>
                 </div>
               ))}
             </div>
           </div>
-          {/* Separator */}
           <hr className="separator" />
-          {/* Cancel and Apply Buttons */}
           <div className="button-container">
             <div onClick={cancelChanges}>
               <Button label="Cancel" type="secondary" />

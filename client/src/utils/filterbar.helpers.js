@@ -26,3 +26,27 @@ export async function fetchWorkModel() {
     return []; // Return an empty array in case of error
   }
 }
+
+export async function applyFilter(dropdownData, setDropdownData) {
+  try {
+    const response = await fetch("http://localhost:3000/filter-job-post-list", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        filterByLocation: dropdownData["Location"],
+        filterByJobTitle: dropdownData["Job Title"],
+        filterByCompany: dropdownData["Company"],
+        filterByExperience: dropdownData["Experience"],
+        filterByModel: dropdownData["Work Model"],
+      }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      console.error("applyFilter POST request failed:", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}

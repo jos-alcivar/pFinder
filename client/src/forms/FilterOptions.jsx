@@ -2,8 +2,12 @@
 import { DropdownMenu } from "../components/DropdownMenu";
 import { useState } from "react";
 
-export function FilterOptions({ filterOptions, setFilterOptions }) {
-  const [openDropdownIndex, setOpenDropdownIndex] = useState(null); // State to track which dropdown is open
+export function FilterOptions({
+  filterOptions,
+  setFilterOptions,
+  onDropdownDataChange,
+}) {
+  const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
 
   const handleTypeChange = (index, newType) => {
     setFilterOptions((prevOptions) =>
@@ -14,7 +18,7 @@ export function FilterOptions({ filterOptions, setFilterOptions }) {
   };
 
   const handleDropdownToggle = (index) => {
-    setOpenDropdownIndex(openDropdownIndex === index ? null : index); // Toggle the dropdown
+    setOpenDropdownIndex(openDropdownIndex === index ? null : index);
   };
 
   return (
@@ -23,12 +27,12 @@ export function FilterOptions({ filterOptions, setFilterOptions }) {
         <DropdownMenu
           key={index}
           label={option.label}
-          status={option.status}
           optionList={option.optionList}
-          type={option.type} // Pass down the current type of each option
-          onTypeChange={(newType) => handleTypeChange(index, newType)} // Pass down the new type
-          isOpen={openDropdownIndex === index} // Pass down the open state
-          onToggle={() => handleDropdownToggle(index)} // Pass down the toggle function
+          type={option.type}
+          onTypeChange={(newType) => handleTypeChange(index, newType)}
+          isOpen={openDropdownIndex === index}
+          onToggle={() => handleDropdownToggle(index)}
+          onApplyChanges={onDropdownDataChange} // Pass the callback
         />
       ))}
     </div>
