@@ -14,6 +14,7 @@ function Reports() {
   const [jobPost, setJobPost] = useJobPost();
   const [dateRange, setDateRange] = useDateRange();
   const [filterOptions, setFilterOptions] = useFilterOptions();
+
   const dateList = jobPost.map((post) => post.date);
   // console.log("This is the dateList", dateList);
 

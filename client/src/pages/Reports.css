@@ -13,6 +13,7 @@
   flex-shrink: 0;
   align-self: stretch;
   z-index: 3;
+  justify-content: center;
 }
 
 .stats-ctn {

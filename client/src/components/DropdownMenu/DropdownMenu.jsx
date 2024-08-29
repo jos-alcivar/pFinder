@@ -1,60 +1,142 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useReducer, useEffect } from "react";
 import { FilterOption } from "../FilterOption";
 import { Button } from "../Button";
 import "./style.css";
 
-export const DropdownMenu = (props) => {
-  const [isOpen, setIsOpen] = useState(false); // State to control the dropdown visibility
-  const [selectedOptions, setSelectedOptions] = useState([]); // State to track selected checkboxes
-  const [tempSelectedOptions, setTempSelectedOptions] = useState([]); // Temporary state to track changes
+// Define the initial state and reducer function
+const initialState = {
+  selectedOptions: [],
+  tempSelectedOptions: [],
+  isSelectAllChecked: false,
+};
 
-  // Toggle dropdown visibility
-  const toggleDropdown = () => {
-    setTempSelectedOptions(selectedOptions); // Save the current state to temporary state
-    setIsOpen(!isOpen);
-  };
+function reducer(state, action) {
+  switch (action.type) {
+    case "TOGGLE_DROPDOWN":
+      return {
+        ...state,
+        tempSelectedOptions: action.payload.selectedOptions,
+        isSelectAllChecked: action.payload.isSelectAllChecked,
+      };
+    case "CHECKBOX_CHANGE":
+      return {
+        ...state,
+        tempSelectedOptions: action.payload.isChecked
+          ? [...state.tempSelectedOptions, action.payload.value]
+          : state.tempSelectedOptions.filter(
+              (option) => option !== action.payload.value
+            ),
+        isSelectAllChecked:
+          action.payload.isChecked &&
+          state.tempSelectedOptions.length + 1 === action.payload.totalOptions,
+      };
+    case "SELECT_ALL":
+      return {
+        ...state,
+        tempSelectedOptions: action.payload.isChecked
+          ? action.payload.optionList
+          : [],
+        isSelectAllChecked: action.payload.isChecked,
+      };
+    case "APPLY_CHANGES":
+      return {
+        ...state,
+        selectedOptions: state.tempSelectedOptions,
+        isSelectAllChecked:
+          state.tempSelectedOptions.length === action.payload.totalOptions,
+      };
+    case "CANCEL_CHANGES":
+      return {
+        ...state,
+        tempSelectedOptions: state.selectedOptions,
+        isSelectAllChecked:
+          state.selectedOptions.length === action.payload.totalOptions,
+      };
+    default:
+      return state;
+  }
+}
+
+export const DropdownMenu = ({
+  label,
+  optionList,
+  type,
+  onTypeChange,
+  isOpen,
+  onToggle,
+}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Effect to sync tempSelectedOptions with selectedOptions when dropdown opens
+  useEffect(() => {
+    if (isOpen) {
+      dispatch({
+        type: "TOGGLE_DROPDOWN",
+        payload: {
+          selectedOptions: state.selectedOptions,
+          isSelectAllChecked:
+            state.selectedOptions.length === optionList.length,
+        },
+      });
+    }
+  }, [isOpen, state.selectedOptions, optionList.length]);
 
   // Handle checkbox changes
   const handleCheckboxChange = (event) => {
-    const value = event.target.value;
-    if (tempSelectedOptions.includes(value)) {
-      setTempSelectedOptions(
-        tempSelectedOptions.filter((option) => option !== value)
-      );
-    } else {
-      setTempSelectedOptions([...tempSelectedOptions, value]);
-    }
+    const { value, checked } = event.target;
+    dispatch({
+      type: "CHECKBOX_CHANGE",
+      payload: {
+        value,
+        isChecked: checked,
+        totalOptions: optionList.length,
+      },
+    });
+  };
+
+  // Handle "Select All" checkbox change
+  const handleSelectAllChange = (event) => {
+    const { checked } = event.target;
+    dispatch({
+      type: "SELECT_ALL",
+      payload: {
+        isChecked: checked,
+        optionList: optionList,
+      },
+    });
   };
 
   // Apply changes and close the dropdown
   const applyChanges = () => {
-    setSelectedOptions(tempSelectedOptions); // Save the temporary state to the main state
-    setIsOpen(false);
-    console.log("temp", tempSelectedOptions);
-    console.log("selected", selectedOptions);
-    // Update type based on the presence of selected options
-    props.onTypeChange(
-      tempSelectedOptions.length > 0 ? "selected" : "unselected"
+    dispatch({
+      type: "APPLY_CHANGES",
+      payload: { totalOptions: optionList.length },
+    });
+    onToggle(); // Close the dropdown
+    onTypeChange(
+      state.tempSelectedOptions.length > 0 ? "selected" : "unselected"
     );
   };
 
   // Cancel changes and close the dropdown
   const cancelChanges = () => {
-    setTempSelectedOptions(selectedOptions); // Revert temporary state to the main state
-    setIsOpen(false);
-    // Revert type to 'selected' or 'unselected' based on previous state
-    props.onTypeChange(selectedOptions.length > 0 ? "selected" : "unselected");
+    dispatch({
+      type: "CANCEL_CHANGES",
+      payload: { totalOptions: optionList.length },
+    });
+    onToggle(); // Close the dropdown
+    onTypeChange("unselected"); // Reset type to 'unselected'
   };
 
   return (
     <div>
-      <div onClick={toggleDropdown}>
+      <div onClick={onToggle}>
         <FilterOption
-          label={props.label}
-          type={props.type}
-          onTypeChange={props.onTypeChange}
-          isEmpty={tempSelectedOptions.length === 0} // Set isEmpty based on tempSelectedOptions length
+          label={label}
+          type={type}
+          onTypeChange={onTypeChange}
+          isEmpty={state.tempSelectedOptions.length === 0} // Set isEmpty based on optionList length
         />
       </div>
       {isOpen && (
@@ -72,28 +154,22 @@ export const DropdownMenu = (props) => {
                 type="checkbox"
                 className="input-check"
                 value="select all"
-                onChange={(e) => {
-                  const isChecked = e.target.checked;
-                  if (isChecked) {
-                    setTempSelectedOptions(props.optionList);
-                  } else {
-                    setTempSelectedOptions([]);
-                  }
-                }}
+                checked={state.isSelectAllChecked}
+                onChange={handleSelectAllChange}
               />
               <span className="input-txt">{"Select All"}</span>
             </label>
           </div>
           <div className="option-menu-ctn">
             <div className="option-menu">
-              {props.optionList.map((item) => (
+              {optionList.map((item) => (
                 <div key={item}>
                   <label className="option-item">
                     <input
                       type="checkbox"
                       className="input-check"
                       value={item}
-                      checked={tempSelectedOptions.includes(item)}
+                      checked={state.tempSelectedOptions.includes(item)}
                       onChange={handleCheckboxChange}
                     />
                     <span className="input-txt">

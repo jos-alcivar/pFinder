@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import { DropdownMenu } from "../components/DropdownMenu";
+import { useState } from "react";
 
 export function FilterOptions({ filterOptions, setFilterOptions }) {
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null); // State to track which dropdown is open
 
   const handleTypeChange = (index, newType) => {
     setFilterOptions((prevOptions) =>
-      prevOptions.map((opt, idx) => ({
-        ...opt,
-        type: idx === index ? newType : "unselected", // Set the clicked option to newType and others to "unselected"
-      }))
+      prevOptions.map((opt, idx) =>
+        idx === index ? { ...opt, type: newType } : opt
+      )
     );
   };
 
