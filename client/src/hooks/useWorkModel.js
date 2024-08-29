@@ -1,5 +1,5 @@
 // useWorkModel.js
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 //--- Function to create form options ----
 export function useWorkModel() {
   const [model, setModel] = useState([]);
@@ -35,5 +35,8 @@ export function useWorkModelOptions() {
     loadWorkModel();
   }, []);
 
-  return [model, setModel];
+  // Memoize experience to prevent unnecessary re-renders
+  const memoizedModel = useMemo(() => model, [model]);
+
+  return [memoizedModel, setModel];
 }

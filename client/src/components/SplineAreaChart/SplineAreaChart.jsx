@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
-import { AreaChart, Area, Tooltip, XAxis, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, Tooltip, XAxis } from "recharts";
 
 import "./style.css";
 
 export const SplineAreaChart = (props) => {
   return (
-    <ResponsiveContainer width={395} height={354} className="graphic_vector">
+    <div className="graphic_vector" style={{ width: 395, height: 354 }}>
       <AreaChart
+        width={395}
+        height={354}
         data={props.data}
         margin={{ top: 8, right: 0, left: 0, bottom: 8 }}
       >
@@ -16,7 +18,6 @@ export const SplineAreaChart = (props) => {
             <stop offset=".88" stopColor="#FF7F00" stopOpacity={0} />
           </linearGradient>
         </defs>
-        {/* Hide the XAxis ticks and line */}
         <XAxis dataKey="date" tick={false} axisLine={false} />
         <Tooltip />
         <Area
@@ -27,7 +28,7 @@ export const SplineAreaChart = (props) => {
           fill="url(#colorUv)"
         />
       </AreaChart>
-    </ResponsiveContainer>
+    </div>
   );
 };
 

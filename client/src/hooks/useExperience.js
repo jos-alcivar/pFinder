@@ -21,19 +21,3 @@ export function useExperience() {
 
   return [experience, setExperience];
 }
-//--- Function to create dropdownmenu options ----
-export function useExperienceOptions() {
-  const [experience, setExperience] = useState([]);
-
-  useEffect(() => {
-    async function loadExperience() {
-      const response = await fetch("http://localhost:3000/experience-level");
-      const data = await response.json();
-      const experienceList = data.map((experience) => experience.level);
-      setExperience(experienceList);
-    }
-    loadExperience();
-  }, []);
-
-  return [experience, setExperience];
-}

@@ -11,8 +11,9 @@ import "./Reports.css";
 import "./style.css";
 
 function Reports() {
-  const [jobPost, setJobPost] = useJobPost();
+  const [jobPost] = useJobPost();
   const [dateRange, setDateRange] = useDateRange();
+
   const [filterOptions, setFilterOptions] = useFilterOptions();
 
   const dateList = jobPost.map((post) => post.date);
