@@ -118,7 +118,6 @@ const getJobPostFiltered = async (req, res) => {
   // Add grouping and ordering
   queryFilter += ` ${group_by} ${order_by}`;
   console.log("query params", queryParams);
-  console.log("query filter", queryFilter);
   try {
     const data = await db.query(queryFilter, queryParams);
     const list = data.rows;

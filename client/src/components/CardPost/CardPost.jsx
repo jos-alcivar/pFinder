@@ -31,18 +31,18 @@ export const CardPost = ({
     >
       <div className="card-text-ctn">
         <div className="card-heading">
-          <div className={`heading-text ${state.status}`}>{state.heading}</div>
+          <div className={`heading-text ${state.status}`}>{heading}</div>
         </div>
         <div className="card-label ">
-          <div className="label-text">{state.label}</div>
+          <div className="label-text">{label}</div>
         </div>
         <div className="card-info">
           <div className="card-row">
-            <div className="info-text">{state.location}</div>
+            <div className="info-text">{location}</div>
           </div>
           <div className="card-row">
-            <div className="info-text">{state.model}</div>
-            <div className="info-text">{state.experience}</div>
+            <div className="info-text">{model}</div>
+            <div className="info-text">{experience}</div>
           </div>
         </div>
       </div>

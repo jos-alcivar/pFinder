@@ -27,7 +27,26 @@ export async function fetchWorkModel() {
   }
 }
 
-export async function applyFilter(dropdownData, setDropdownData) {
+export async function applyFilter(dropdownData) {
+  let interval;
+
+  switch (dropdownData["dateIndex"]) {
+    case 0:
+      interval = 60;
+      break;
+    case 1:
+      interval = 62;
+      break;
+    case 2:
+      interval = 64;
+      break;
+    case 3:
+      interval = 66;
+      break;
+    default:
+      interval = 0;
+  }
+
   try {
     const response = await fetch("http://localhost:3000/filter-job-post-list", {
       method: "POST",
@@ -38,11 +57,12 @@ export async function applyFilter(dropdownData, setDropdownData) {
         filterByCompany: dropdownData["Company"],
         filterByExperience: dropdownData["Experience"],
         filterByModel: dropdownData["Work Model"],
+        filterByDate: interval,
       }),
     });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
+      return data;
     } else {
       console.error("applyFilter POST request failed:", response.statusText);
     }

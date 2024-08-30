@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 export function useDateRange() {
-  const labels = ["1D", "2D", "3D", "4D", "ALL"];
+  const labels = ["60", "62", "64", "66", "ALL"];
   const [dateRange, setDateRange] = useState(() =>
     labels.map((label) => ({
       label,

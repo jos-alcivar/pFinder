@@ -1,5 +1,6 @@
-import { useJobPost } from "../hooks/useJobPost";
+import { useState, useEffect, useCallback } from "react";
 import { useFilterOptions } from "../hooks/useFilterOptions";
+import { applyFilter } from "../utils/filterbar.helpers";
 import { CardPost } from "../components/CardPost";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
@@ -8,10 +9,34 @@ import "./style.css";
 import "./Jobs.css";
 
 function Jobs() {
-  const [jobPost, setJobPost] = useJobPost();
+  const [dropdownData, setDropdownData] = useState({});
   const [filterOptions, setFilterOptions] = useFilterOptions();
+  const [postList, setPostList] = useState([]);
 
-  console.log(jobPost.slice(0, 10));
+  const loadPosts = useCallback(async () => {
+    try {
+      const result = await applyFilter(dropdownData);
+      setPostList(result || []);
+    } catch (error) {
+      console.error("Failed to load posts:", error);
+      setPostList([]); // Clear or set to an empty array on error
+    }
+  }, [dropdownData]);
+
+  const handleDropdownDataChange = (data) => {
+    setDropdownData((prevData) => ({
+      ...prevData,
+      [data.label]: data.selectedOptions,
+    }));
+  };
+
+  useEffect(() => {
+    loadPosts();
+  }, [dropdownData, loadPosts]);
+
+  // Debugging: log postList and its structure
+  console.log("postList:", postList);
+
   return (
     <div className="app-ctn">
       <Header title={"Job Listing"} />
@@ -21,24 +46,30 @@ function Jobs() {
             <FilterOptions
               filterOptions={filterOptions}
               setFilterOptions={setFilterOptions}
+              onDropdownDataChange={handleDropdownDataChange}
             />
             <div className="posts">
-              {jobPost.slice(0, 10).map((card, index) => (
-                <CardPost
-                  className="post-card"
-                  key={index}
-                  heading={card.jobtitle_name}
-                  label={card.company_name}
-                  location={`${card.city_name}, ${card.country_name}`}
-                  model={card.model.join(", ")}
-                  experience={card.experience.join(", ")}
-                />
-              ))}
+              {postList.length === 0 ? (
+                <p>No posts available</p>
+              ) : (
+                postList.map((card, index) => (
+                  <CardPost
+                    className="post-card"
+                    key={card.id || index} // Ensure unique key
+                    heading={card.jobtitle_name || "N/A"}
+                    label={card.company_name || "N/A"}
+                    location={`${card.city_name || "N/A"}, ${
+                      card.country_name || "N/A"
+                    }`}
+                    model={card.model?.join(", ") || "N/A"}
+                    experience={card.experience?.join(", ") || "N/A"}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>
       </div>
-
       <TabBar jobs={"selected"} />
     </div>
   );
