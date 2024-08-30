@@ -4,12 +4,13 @@ import { useDateRange } from "../hooks/useDateRange";
 import { useFilterOptions } from "../hooks/useFilterOptions";
 import { applyFilter } from "../utils/filterbar.helpers";
 import { SplineAreaChart } from "../components/SplineAreaChart";
+import { CardTopScore } from "../components/CardTopScore";
 import { DateRangeOptions } from "../forms/DateOptions";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
-import "./Reports.css";
 import "./style.css";
+import "./Reports.css";
 
 function Reports() {
   // State to store dropdown data
@@ -50,6 +51,37 @@ function Reports() {
     loadPosts();
   }, [dropdownData, loadPosts]); // Depend on dropdownData and loadPosts
 
+  function topScore(postList, filter) {
+    if (!Array.isArray(postList) || typeof filter !== "string") {
+      throw new Error("Invalid arguments");
+    }
+
+    // GET THE TOP 4 ENTRIES
+    const filterList = postList.map((post) => post[filter]);
+    const filterCounts = filterList.reduce((acc, item) => {
+      acc[item] = (acc[item] || 0) + 1;
+      return acc;
+    }, {});
+
+    const filterArray = Object.keys(filterCounts).map((filterValue) => ({
+      item: filterValue,
+      value: filterCounts[filterValue],
+    }));
+
+    const sortedArray = filterArray
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 3);
+    return sortedArray;
+  }
+
+  const cardData = {
+    topLocation: topScore(postList, "country_name"),
+    topJobTitle: topScore(postList, "jobtitle_name"),
+    topCompany: topScore(postList, "company_name"),
+    topExperience: topScore(postList, "experience"),
+    topModel: topScore(postList, "model"),
+  };
+
   // Process dates for chart
   const dateList = postList.map((post) => post.date);
   const dateCounts = dateList.reduce((acc, date) => {
@@ -62,7 +94,7 @@ function Reports() {
     return acc;
   }, {});
 
-  const resultArray = Object.keys(dateCounts)
+  const dateArray = Object.keys(dateCounts)
     .map((date) => ({
       date,
       oppenings: dateCounts[date],
@@ -82,13 +114,40 @@ function Reports() {
             />
             <div className="stats-ctn">
               <div className="graphics">
-                <SplineAreaChart data={resultArray} dataKey={"oppenings"} />
+                <SplineAreaChart data={dateArray} dataKey={"oppenings"} />
                 <DateRangeOptions
                   dateRange={dateRange}
                   setDateRange={setDateRange}
                 />
               </div>
             </div>
+          </div>
+          <div className="cards-ctn">
+            <CardTopScore
+              label="Top Locations"
+              filter="Location"
+              data={cardData.topLocation}
+            />
+            <CardTopScore
+              label="Top Job Titles"
+              filter="Job Title"
+              data={cardData.topJobTitle}
+            />
+            <CardTopScore
+              label="Top Companies"
+              filter="Company"
+              data={cardData.topCompany}
+            />
+            <CardTopScore
+              label="Top Experience"
+              filter="Experience Level"
+              data={cardData.topExperience}
+            />
+            <CardTopScore
+              label="Top Work Model"
+              filter="Work Model"
+              data={cardData.topModel}
+            />
           </div>
         </div>
       </div>

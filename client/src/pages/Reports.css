@@ -61,3 +61,17 @@
   border-radius: var(--space-xxl, 24px);
   z-index: 2;
 }
+
+.cards-ctn {
+  display: flex;
+  padding-bottom: 96px;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xxl, 24px);
+
+  position: absolute;
+  top: 496px;
+  left: 17.5px;
+  right: 17.5px;
+  bottom: -1102px;
+}

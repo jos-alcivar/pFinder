@@ -1,8 +1,10 @@
+body {
+  background: var(--neutral-100, #292929);
+}
 .app-ctn {
   overflow-x: hidden;
   width: 1920px;
   height: 911px;
-  background: var(--neutral-100, #292929);
 }
 
 .app-ctn .body-ctn {

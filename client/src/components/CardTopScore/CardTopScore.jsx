@@ -3,12 +3,10 @@ import { useReducer } from "react";
 import NextIcon from "../../assets/icons/next.svg";
 import "./style.css";
 
-export const CardTopScore = ({ heading, filter, item, value, status }) => {
+export const CardTopScore = ({ label, filter, data, status }) => {
   const [state, dispatch] = useReducer(reducer, {
-    heading: heading || "Heading",
+    label: label || "Heading",
     filter: filter || "Filter",
-    item: item || ["Item 1", "Item 2", "Item 3"],
-    value: value || ["100", "90", "80"],
     status: status || "default",
   });
 
@@ -23,18 +21,20 @@ export const CardTopScore = ({ heading, filter, item, value, status }) => {
       }}
     >
       <div className="card-heading">
-        <div className={`heading-text ${state.status}`}>{state.heading}</div>
+        <div className={`heading-text ${state.status}`}>{label}</div>
         <img src={NextIcon} alt="next arrow" />
       </div>
       <div className="card-label ">
-        <div className="filter-text">{state.filter}</div>
+        <div className="filter-text">{filter}</div>
         <div className="result-text">{"Results"}</div>
       </div>
       <div className="card-list">
-        <div className="card-row">
-          <div className="item-text">{state.item[0]}</div>
-          <div className="value-text">{state.value[0]}</div>
-        </div>
+        {data.map((entry, index) => (
+          <div key={index} className="card-row">
+            <div className="item-text">{entry.item}</div>
+            <div className="value-text">{entry.value}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -58,7 +58,7 @@ function reducer(state, action) {
 }
 
 CardTopScore.propTypes = {
-  heading: PropTypes.string,
+  label: PropTypes.string,
   filter: PropTypes.string,
   item: PropTypes.array,
   value: PropTypes.array,

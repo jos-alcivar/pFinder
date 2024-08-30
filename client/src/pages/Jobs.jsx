@@ -34,9 +34,6 @@ function Jobs() {
     loadPosts();
   }, [dropdownData, loadPosts]);
 
-  // Debugging: log postList and its structure
-  console.log("postList:", postList);
-
   return (
     <div className="app-ctn">
       <Header title={"Job Listing"} />
