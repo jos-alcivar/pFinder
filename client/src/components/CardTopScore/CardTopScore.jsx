@@ -21,8 +21,7 @@ export const CardTopScore = ({ label, filter, data, status }) => {
       }}
     >
       <div className="card-heading">
-        <div className={`heading-text ${state.status}`}>{label}</div>
-        <img src={NextIcon} alt="next arrow" />
+        <div className={`heading-text`}>{label}</div>
       </div>
       <div className="card-label ">
         <div className="filter-text">{filter}</div>

@@ -7,11 +7,11 @@
   --secondary-50: rgb(0, 100, 128);
   --secondary-40: rgb(0, 160, 204);
 
-  --neutral-100: rgb(41, 41, 41);
-  --neutral-90: rgb(46, 46, 46);
-  --neutral-80: rgb(56, 56, 56);
-  --neutral-70: rgb(68, 68, 68);
-  --neutral-60: rgb(96, 96, 96);
+  --neutral-100: rgb(16, 16, 16);
+  --neutral-90: rgb(29, 29, 29);
+  --neutral-80: rgb(40, 40, 40);
+  --neutral-70: rgb(48, 48, 48);
+  --neutral-60: rgb(84, 84, 84);
   --neutral-30: rgb(179, 179, 179);
   --neutral-20: rgb(210, 210, 210);
   --neutral-10: rgb(243, 243, 243);
@@ -83,10 +83,10 @@
 
   /* EFFECT */
   --dropshadow-x: 0px;
-  --dropshadow-y: 2px;
-  --dropshadow-blur: 4px;
+  --dropshadow-y: 0px;
+  --dropshadow-blur: 8px;
   --dropshadow-spread: 0px;
-  --dropshadow-color: rgba(25 25 25 / 0.25);
+  --dropshadow-color: rgba(10 10 10 / 0.29);
 
   /* FONT  */
   --font-family-primary: "Consolas";
@@ -123,18 +123,23 @@
   --font-size-fullscreen-xxl-rem: 2.4413rem;
   --font-size-fullscreen-xxxl: 48.83px;
   --font-size-fullscreen-xxxl-rem: 3.0519rem;
-  --font-family-primary: "Consolas";
-  --font-family-secondary: "Saira Condensed";
+
+  /* --- FONT FAMILY ---*/
+  --font-family-primary: "Bitstream Vera Sans";
+  --font-family-secondary: "Consolas";
+  /* --- FONT WEIGHT ---*/
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 700;
-  --font-weight-bolder: 900;
+  --font-weight-bolder: 700;
+  /* --- FONT LINE HEIGHT ---*/
   --line-height-small: 1.25px;
   --line-height-small-rem: 0.0781rem;
   --line-height-medium: 1.5px;
   --line-height-medium-rem: 0.0938rem;
   --line-height-large: 1.75px;
   --line-height-large-rem: 0.1094rem;
+  /* --- FONT SIZE ---*/
   --font-size-mobile-small: 12.8px;
   --font-size-mobile-small-rem: 0.8rem;
   --font-size-midscreen-small: 14.4px;
@@ -175,8 +180,4 @@
   --font-size-fullscreen-xxxxl-rem: 3.815rem;
   --font-size-fullscreen-xxxxxl: 76.29px;
   --font-size-fullscreen-xxxxxl-rem: 4.7681rem;
-}
-
-body {
-  margin: 0;
 }
