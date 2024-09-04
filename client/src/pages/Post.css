@@ -97,3 +97,38 @@
   gap: var(--space-zero, 0px);
   align-self: stretch;
 }
+
+.pagination {
+  font-family: var(--font-family-secondary, Consolas);
+  font-size: var(--font-size-mobile-small);
+  color: var(--neutral-20, #d2d2d2);
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.pagination .navigation-btn {
+  font-family: var(--font-family-secondary, Consolas);
+  font-size: var(--font-size-mobile-small);
+  color: var(--neutral-20, #d2d2d2);
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-style: none;
+  border-radius: var(--radii-medium, 8px);
+  background-color: var(--neutral-60, rgb(46, 46, 46));
+  cursor: pointer;
+}
+
+.navigation-btn:disabled {
+  background-color: var(--neutral-90, rgb(46, 46, 46));
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navigation-btn:not(:disabled):hover {
+  background-color: var(--primary-60, #ff800b);
+  font-weight: 600;
+}

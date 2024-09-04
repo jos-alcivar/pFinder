@@ -12,14 +12,20 @@ function Jobs() {
   const [dropdownData, setDropdownData] = useState({});
   const [filterOptions, setFilterOptions] = useFilterOptions();
   const [postList, setPostList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 20;
+  const totalPages = Math.ceil(postList.length / itemsPerPage);
 
   const loadPosts = useCallback(async () => {
     try {
       const result = await applyFilter(dropdownData);
       setPostList(result || []);
+      setCurrentPage(1); // Reset to the first page when new posts are loaded
     } catch (error) {
       console.error("Failed to load posts:", error);
-      setPostList([]); // Clear or set to an empty array on error
+      setPostList([]);
+      setCurrentPage(1); // Reset to the first page on error
     }
   }, [dropdownData]);
 
@@ -34,6 +40,23 @@ function Jobs() {
     loadPosts();
   }, [dropdownData, loadPosts]);
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const paginatedPosts = postList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="app-ctn">
       <Header title={"Job Listing"} />
@@ -46,10 +69,10 @@ function Jobs() {
               onDropdownDataChange={handleDropdownDataChange}
             />
             <div className="posts">
-              {postList.length === 0 ? (
+              {paginatedPosts.length === 0 ? (
                 <p>No posts available</p>
               ) : (
-                postList.map((card, index) => (
+                paginatedPosts.map((card, index) => (
                   <CardPostB
                     className="post-card"
                     key={card.id || index} // Ensure unique key
@@ -61,9 +84,29 @@ function Jobs() {
                     model={card.model?.join(", ") || "N/A"}
                     experience={card.experience?.join(", ") || "N/A"}
                     date={card.date || "N/A"}
+                    contact={card.contact}
                   />
                 ))
               )}
+              <div className="pagination">
+                <button
+                  className="navigation-btn"
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                >
+                  Prev
+                </button>
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  className="navigation-btn"
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import { useState, useEffect, useCallback } from "react";
 import { useDateRange } from "../hooks/useDateRange";
 import { useFilterOptions } from "../hooks/useFilterOptions";

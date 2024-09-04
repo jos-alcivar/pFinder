@@ -11,6 +11,7 @@ export const CardPostB = ({
   experience,
   status,
   date,
+  contact,
 }) => {
   const [state, dispatch] = useReducer(reducer, {
     heading: heading || "Heading",
@@ -34,7 +35,9 @@ export const CardPostB = ({
     >
       <div className="card-ctn">
         <div className="card-heading">
-          <div className={`heading-text ${state.status}`}>{heading}</div>
+          <div className={`heading-text ${state.status}`}>
+            <a href={contact}>{heading}</a>
+          </div>
         </div>
         <div className="card-content">
           <div className="card-text-ctn">
@@ -84,6 +87,7 @@ CardPostB.propTypes = {
   date: PropTypes.string,
   heading: PropTypes.string,
   label: PropTypes.string,
+  contact: PropTypes.string,
   location: PropTypes.string,
   model: PropTypes.string,
   experience: PropTypes.string,

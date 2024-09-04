@@ -1,6 +1,6 @@
 .cardPostB-ctn {
   display: flex;
-  width: 363px;
+  width: 395px;
   height: 164px;
   padding: var(--space-zero, 0px);
   align-items: center;
@@ -40,7 +40,8 @@
 .card-ctn .card-heading .heading-text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height: 30px;
+  overflow: hidden;
   flex: 1 0 0;
   align-self: stretch;
 
@@ -62,7 +63,7 @@
 .card-ctn .card-content {
   display: flex;
   height: 118px;
-  width: 363px;
+  width: 100%;
   justify-content: center;
   align-items: flex-start;
   position: relative;
@@ -180,4 +181,9 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.heading-text a {
+  color: var(--primary-60, #ff800b);
+  text-decoration: none;
 }

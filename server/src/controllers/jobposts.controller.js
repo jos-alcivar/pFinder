@@ -1,7 +1,7 @@
 import db from "../../db.js";
 // --- SQL COMMANDS ---
 const columns =
-  "post.post_id, post.date, jobtitle.jobtitle_name, ARRAY_AGG(DISTINCT experience.level ORDER BY experience.level) AS experience, company.company_name, country.country_name, state.state_name, city.city_name, ARRAY_AGG(DISTINCT model.model_name ORDER BY model.model_name) AS model";
+  "post.post_id, post.date, jobtitle.jobtitle_name, ARRAY_AGG(DISTINCT experience.level ORDER BY experience.level) AS experience, company.company_name, country.country_name, state.state_name, city.city_name, ARRAY_AGG(DISTINCT model.model_name ORDER BY model.model_name) AS model, postdetail.contact";
 const join_jobtitle =
   "JOIN jobtitle ON post.jobtitle_id = jobtitle.jobtitle_id";
 const join_experience =
@@ -11,8 +11,10 @@ const join_city = "JOIN city ON company.city_id = city.city_id";
 const join_state = "JOIN state ON city.state_id = state.state_id";
 const join_country = "JOIN country ON state.country_id = country.country_id";
 const join_model = "JOIN model ON model.model_id = ANY(post.model_id)";
+const join_postdetail =
+  "JOIN postdetail ON post.post_id = postdetail.postdetail_id";
 const group_by =
-  "GROUP BY post.post_id, post.date, jobtitle.jobtitle_name, company.company_name, country.country_name, state.state_name, city.city_name";
+  "GROUP BY post.post_id, post.date, jobtitle.jobtitle_name, company.company_name, country.country_name, state.state_name, city.city_name, postdetail.contact";
 const order_by = "ORDER BY date DESC";
 // --- QUERY TO GET ALL POSTS ---
 const query = `
@@ -25,6 +27,7 @@ const query = `
   ${join_state}
   ${join_country}
   ${join_model}
+  ${join_postdetail}
 `;
 
 // --- GET JOB POSTS ---
