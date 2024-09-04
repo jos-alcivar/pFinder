@@ -32,16 +32,16 @@ export async function applyFilter(dropdownData) {
 
   switch (dropdownData["dateIndex"]) {
     case 0:
-      interval = 60;
+      interval = 7;
       break;
     case 1:
-      interval = 62;
+      interval = 30;
       break;
     case 2:
-      interval = 64;
+      interval = 90;
       break;
     case 3:
-      interval = 66;
+      interval = 365;
       break;
     default:
       interval = 0;

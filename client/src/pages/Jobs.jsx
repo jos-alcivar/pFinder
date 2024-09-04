@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useFilterOptions } from "../hooks/useFilterOptions";
 import { applyFilter } from "../utils/filterbar.helpers";
-import { CardPost } from "../components/CardPost";
+import { CardPostB } from "../components/CardPostB";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
@@ -50,7 +50,7 @@ function Jobs() {
                 <p>No posts available</p>
               ) : (
                 postList.map((card, index) => (
-                  <CardPost
+                  <CardPostB
                     className="post-card"
                     key={card.id || index} // Ensure unique key
                     heading={card.jobtitle_name || "N/A"}
@@ -60,6 +60,7 @@ function Jobs() {
                     }`}
                     model={card.model?.join(", ") || "N/A"}
                     experience={card.experience?.join(", ") || "N/A"}
+                    date={card.date || "N/A"}
                   />
                 ))
               )}

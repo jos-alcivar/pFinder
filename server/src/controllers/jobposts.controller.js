@@ -13,7 +13,7 @@ const join_country = "JOIN country ON state.country_id = country.country_id";
 const join_model = "JOIN model ON model.model_id = ANY(post.model_id)";
 const group_by =
   "GROUP BY post.post_id, post.date, jobtitle.jobtitle_name, company.company_name, country.country_name, state.state_name, city.city_name";
-const order_by = "ORDER BY post.post_id DESC";
+const order_by = "ORDER BY date DESC";
 // --- QUERY TO GET ALL POSTS ---
 const query = `
   SELECT ${columns}

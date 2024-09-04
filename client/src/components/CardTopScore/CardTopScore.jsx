@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useReducer } from "react";
-import NextIcon from "../../assets/icons/next.svg";
 import "./style.css";
 
 export const CardTopScore = ({ label, filter, data, status }) => {
@@ -57,6 +56,7 @@ function reducer(state, action) {
 }
 
 CardTopScore.propTypes = {
+  data: PropTypes.array,
   label: PropTypes.string,
   filter: PropTypes.string,
   item: PropTypes.array,

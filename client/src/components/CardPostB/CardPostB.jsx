@@ -3,7 +3,7 @@ import { calculateInterval } from "../../utils/date.helpers";
 import { useReducer } from "react";
 import "./style.css";
 
-export const CardPost = ({
+export const CardPostB = ({
   heading,
   label,
   location,
@@ -24,7 +24,7 @@ export const CardPost = ({
 
   return (
     <div
-      className="cardPost-ctn"
+      className="cardPostB-ctn"
       onMouseLeave={() => {
         dispatch("mouse_leave");
       }}
@@ -32,26 +32,32 @@ export const CardPost = ({
         dispatch("mouse_enter");
       }}
     >
-      <div className="card-text-ctn">
+      <div className="card-ctn">
         <div className="card-heading">
           <div className={`heading-text ${state.status}`}>{heading}</div>
         </div>
-        <div className="card-label ">
-          <div className="label-text">{label}</div>
-        </div>
-        <div className="card-info">
-          <div className="card-row">
-            <div className="info-text">{location}</div>
+        <div className="card-content">
+          <div className="card-text-ctn">
+            <div className="card-label ">
+              <div className="label-text">{label}</div>
+            </div>
+            <div className="card-info">
+              <div className="card-row">
+                <div className="info-text">{location}</div>
+              </div>
+              <div className="card-row">
+                <div className="info-text">{model}</div>
+                <div className="info-text">{experience}</div>
+              </div>
+            </div>
           </div>
-          <div className="card-row">
-            <div className="info-text">{model}</div>
-            <div className="info-text">{experience}</div>
+          <div className="card-image-ctn">
+            <div className="thumbnail-ctn">
+              <div className="image-placeholder"></div>
+            </div>
+            <div className="thumbnail-txt">{calculateInterval(date)}</div>
           </div>
         </div>
-      </div>
-      <div className="card-image-ctn">
-        <div className="thumbnail-ctn"></div>
-        <div className="thumbnail-txt">{calculateInterval(date)}</div>
       </div>
     </div>
   );
@@ -74,7 +80,7 @@ function reducer(state, action) {
   return state;
 }
 
-CardPost.propTypes = {
+CardPostB.propTypes = {
   date: PropTypes.string,
   heading: PropTypes.string,
   label: PropTypes.string,

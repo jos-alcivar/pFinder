@@ -1,0 +1,1 @@
+export { CardPostB } from "./CardPostB";

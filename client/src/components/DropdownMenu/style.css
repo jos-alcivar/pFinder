@@ -50,7 +50,7 @@
   border: 1px solid var(--neutral-70, #444);
   background-color: rgba(0, 0, 0, 0);
 
-  color: var(--neutral-60, #606060);
+  color: var(--neutral-20, #606060);
   text-align: left;
   /* medium/primary/base */
   font-family: var(--font-family-primary, Consolas);

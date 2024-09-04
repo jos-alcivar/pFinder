@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useState } from "react";
 import { FilterOption } from "../FilterOption";
 import { Button } from "../Button";
 import "./style.css";
@@ -67,6 +67,7 @@ export const DropdownMenu = ({
   onApplyChanges,
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -131,6 +132,14 @@ export const DropdownMenu = ({
     onTypeChange("unselected");
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredOptions = optionList.filter((option) =>
+    option.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
       <div onClick={onToggle}>
@@ -148,7 +157,9 @@ export const DropdownMenu = ({
               <input
                 type="search"
                 className="search-text"
-                placeholder="By Filter name"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={handleSearchChange}
               />
             </div>
             <label className="option-item">
@@ -159,12 +170,14 @@ export const DropdownMenu = ({
                 checked={state.isSelectAllChecked}
                 onChange={handleSelectAllChange}
               />
-              <span className="input-txt">{"Select All"}</span>
+              <span className="input-txt">
+                {state.isSelectAllChecked ? "Deselect All" : "Select All"}
+              </span>
             </label>
           </div>
           <div className="option-menu-ctn">
             <div className="option-menu">
-              {optionList.map((item) => (
+              {filteredOptions.map((item) => (
                 <div key={item}>
                   <label className="option-item">
                     <input
