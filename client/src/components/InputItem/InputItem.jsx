@@ -7,6 +7,7 @@ export const InputItem = (props) => {
     <div className="input-div">
       <div className="input-label">{props.label}</div>
       <InputText
+        type={props.type}
         onChange={props.onChange}
         value={props.value}
         name={props.name}
@@ -27,5 +28,6 @@ InputItem.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string),
   placeholder: PropTypes.string,
   required: PropTypes.bool,
+  type: PropTypes.string,
   value: PropTypes.string,
 };

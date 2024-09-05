@@ -1,6 +1,5 @@
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
-import "./style.css";
 import "./Account.css";
 
 function Account() {

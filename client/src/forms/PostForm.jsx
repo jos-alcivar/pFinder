@@ -29,6 +29,7 @@ export function PostForm({
     <form id="form-postJob" className="form-ctn">
       <div className="form-job">
         <InputItem
+          type="text"
           onChange={handleChange}
           value={post.jobtitle_name}
           name="jobtitle_name"
@@ -47,6 +48,7 @@ export function PostForm({
       <hr className="separator"></hr>
       <div className="form-location">
         <InputItem
+          type="text"
           onChange={handleChange}
           value={post.country_name}
           name="country_name"
@@ -56,6 +58,7 @@ export function PostForm({
           options={countries}
         />
         <InputItem
+          type="text"
           onChange={handleChange}
           value={post.state_name}
           name="state_name"
@@ -66,6 +69,7 @@ export function PostForm({
           disabled={disableInput(post.country_name)}
         />
         <InputItem
+          type="text"
           onChange={handleChange}
           value={post.city_name}
           name="city_name"
@@ -79,6 +83,7 @@ export function PostForm({
       <hr className="separator"></hr>
       <div className="form-company">
         <InputItem
+          type="text"
           onChange={handleChange}
           value={post.company_name}
           name="company_name"
@@ -89,6 +94,7 @@ export function PostForm({
           disabled={disableInput(post.city_name)}
         />
         <InputItem
+          type="text"
           onChange={handleChange}
           value={post.link}
           name="link"
@@ -103,6 +109,7 @@ export function PostForm({
           <WorkModelOptions model={model} setModel={setModel} />
         </div>
         <InputItem
+          type="date"
           onChange={handleChange}
           value={post.date}
           name="date"

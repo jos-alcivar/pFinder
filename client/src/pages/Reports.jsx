@@ -8,7 +8,6 @@ import { DateRangeOptions } from "../forms/DateOptions";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
-import "./style.css";
 import "./Reports.css";
 
 function Reports() {

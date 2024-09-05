@@ -20,7 +20,6 @@ import {
 } from "../utils/form.helpers";
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
-import "./style.css";
 import "./Post.css";
 
 function Post() {

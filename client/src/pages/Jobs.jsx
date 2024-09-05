@@ -5,7 +5,6 @@ import { CardPostB } from "../components/CardPostB";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
-import "./style.css";
 import "./Jobs.css";
 
 function Jobs() {

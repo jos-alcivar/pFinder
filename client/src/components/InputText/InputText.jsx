@@ -34,7 +34,7 @@ export const InputText = (props) => {
   return (
     <div className="autocomplete-wrapper">
       <input
-        type="text"
+        type={props.type}
         onChange={handleInputChange}
         value={props.value}
         name={props.name}
@@ -67,6 +67,7 @@ InputText.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
+  type: PropTypes.string,
   value: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.string), // Add options prop type
 };
