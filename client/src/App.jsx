@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Post from "./pages/Post";
 import Register from "./pages/Register";
 import Reports from "./pages/Reports";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
@@ -14,11 +15,28 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/posts" element={<Post />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+
+          {/*Protected route for account */}
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          />
+          {/*Protected route for post */}
+          <Route
+            path="/posts"
+            element={
+              <ProtectedRoute>
+                <Post />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/jobs" element={<Jobs />} />
           <Route path="/reports" element={<Reports />} />
         </Routes>
       </BrowserRouter>

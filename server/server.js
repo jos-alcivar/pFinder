@@ -1,11 +1,13 @@
+// server.js
 import express from "express";
 import cors from "cors";
 import env from "dotenv";
 import session from "express-session";
 import passport from "passport";
-import GoogleStrategy from "passport-google-oauth20";
+import "./src/passport-config.js"; // Import Passport configuration
 import router from "./src/routes/task.routes.js";
 import routerAuth from "./src/routes/auth.routes.js";
+import routerUser from "./src/routes/user.routes.js";
 
 env.config(); // Load environment variables
 
@@ -20,7 +22,6 @@ app.use(
   })
 );
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
@@ -32,32 +33,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Passport configuration
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.APP_CB_URL,
-      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-    },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
-
 // Routes
-app.use(router);
-app.use("/auth", routerAuth);
+app.use(router); // Task routes
+app.use("/user", routerUser); // User routes
+app.use("/auth", routerAuth); // Auth routes
 
 // Start server
 app.listen(PORT, () => {

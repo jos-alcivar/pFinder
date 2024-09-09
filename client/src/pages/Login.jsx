@@ -11,15 +11,21 @@ function Login() {
       <div className="body-ctn">
         <div className="content-ctn">
           <div>
-            <form className="login-ctn">
+            <form
+              className="login-ctn"
+              action="http://localhost:3000/auth/login"
+              method="POST"
+            >
               <InputItem
                 label={"Email:"}
+                name="email"
                 placeholder="Your email"
                 type="email"
                 required
               ></InputItem>
               <InputItem
                 label={"Password:"}
+                name="password"
                 placeholder="At least 8 characters"
                 type="password"
                 required

@@ -46,3 +46,36 @@
   gap: var(--space-zero, 0px);
   align-self: stretch;
 }
+
+.register-ctn .email-warning {
+  position: absolute;
+  left: 30px;
+  top: 165px;
+  color: var(--secondary-60, #004b61);
+  font-family: var(--font-family-primary, Consolas);
+  font-size: var(--font-size-mobile-xs, 10.24px);
+  font-weight: 400;
+  line-height: normal;
+}
+
+.register-ctn .passcheck-ctn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xxxs, 2px);
+  position: absolute;
+  right: 16px;
+  bottom: 94px;
+  top: 276px;
+
+  color: var(--secondary-60, #004b61);
+  font-family: var(--font-family-primary, Consolas);
+  font-size: var(--font-size-mobile-xs, 10.24px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.passcheck-ctn .checkcompleted {
+  color: var(--secondary-40, #004b61);
+}

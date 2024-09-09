@@ -1,17 +1,15 @@
-import express from "express";
-import passport from "passport";
-import { registerUser } from "../controllers/user.controller.js";
+import { Router } from "express";
+import {
+  createNewUser,
+  getProfilePhoto,
+  checkUserExists,
+} from "../controllers/user.controller.js";
 
-const router = express.Router();
+const routerUser = Router();
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/secrets",
-    failureRedirect: "/login",
-  })
-);
+// Register new user
+routerUser.post("/exists", checkUserExists);
+routerUser.post("/register", createNewUser);
+routerUser.post("/get-profile-photo", getProfilePhoto);
 
-router.post("/register", registerUser);
-
-export default router;
+export default routerUser;
