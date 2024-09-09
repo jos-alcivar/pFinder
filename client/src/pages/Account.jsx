@@ -13,7 +13,7 @@ function Account() {
     const loadProfileImage = async () => {
       const result = await fetchImageProfile(user.user_id);
       if (result) {
-        setProfileImage(result.photo);
+        setProfileImage(result.photo_url);
       }
     };
 
@@ -34,17 +34,17 @@ function Account() {
                   <img
                     className="photo-profile"
                     src={profileImage}
-                    width={"128px"}
-                    height={"128px"}
+                    width={"96px"}
+                    height={"96px"}
                   />
                 )}
               </div>
-              <div className="text-profile">{user.user_email}</div>
+              <div className="text-profile">{user.user_name}</div>
             </div>
             <div className="menu-ctn">
               <div className="label-text-main">Profile</div>
-              <div className="label-text-main">Notifications</div>
-              <div className="label-text-main">Feedback</div>
+              {/* <div className="label-text-main">Notifications</div>
+              <div className="label-text-main">Feedback</div> */}
               <div className="label-text-main">Account</div>
             </div>
             <div className="btn-row">

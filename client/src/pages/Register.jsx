@@ -20,23 +20,36 @@ function Register() {
         checkUserExists(value, setUserExists);
         break;
       case "password":
-        if (value.length >= 1) {
-          setPwdStatus(true);
-        }
-        if (value.length >= 8) {
-          setPwdMinLength("completed");
-        }
-        if (/\d/.test(value)) {
-          setPwdNumber("completed");
-        }
-        if (/[A-Z]/.test(value) && /[a-z]/.test(value)) {
-          setPwdUpperLower("completed");
-        }
-        if (/[^a-zA-Z0-9]/.test(value)) {
-          setPwdSymbol("completed");
-        }
+        setPwdStatus(value.length >= 1);
+        setPwdMinLength(value.length >= 8 ? "completed" : "");
+        setPwdNumber(/\d/.test(value) ? "completed" : "");
+        setPwdUpperLower(
+          /[A-Z]/.test(value) && /[a-z]/.test(value) ? "completed" : ""
+        );
+        setPwdSymbol(/[^a-zA-Z0-9]/.test(value) ? "completed" : "");
+        break;
+      default:
         break;
     }
+  }
+
+  function handleRegister(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Check if the user exists
+    if (userExists) {
+      alert("An account with this email address already exists.");
+      return;
+    }
+
+    // Ensure all password criteria are met
+    if (!pwdMinLength || !pwdNumber || !pwdUpperLower || !pwdSymbol) {
+      alert("Please ensure your password meets all the requirements.");
+      return;
+    }
+
+    // If all checks pass, proceed with form submission
+    event.target.submit();
   }
 
   return (
@@ -49,6 +62,7 @@ function Register() {
               className="register-ctn"
               action="http://localhost:3000/user/register"
               method="POST"
+              onSubmit={handleRegister}
             >
               <InputItem
                 label={"Email:"}
@@ -57,7 +71,7 @@ function Register() {
                 type="email"
                 onChange={handleChange}
                 required
-              ></InputItem>
+              />
               {userExists && (
                 <div className="email-warning">
                   An account with this email address already exists.
@@ -69,8 +83,9 @@ function Register() {
                 placeholder="Your password"
                 type="password"
                 onChange={handleChange}
+                minLength="8"
                 required
-              ></InputItem>{" "}
+              />
               {pwdStatus && (
                 <div className="passcheck-ctn">
                   <div className={`check${pwdMinLength}`}>
@@ -84,7 +99,9 @@ function Register() {
                 </div>
               )}
               <div className="btn-row">
-                <button className="register-btn">Register</button>
+                <button className="register-btn" type="submit">
+                  Register
+                </button>
               </div>
               <div className="sso-row">
                 <ButtonSSO label="Sign up with Google" />
@@ -96,4 +113,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

@@ -6,7 +6,7 @@ env.config();
 
 // --- Check if user exists, add new user if not ---
 export async function profileGoogleUser(user) {
-  const { email, displayName, oauth_provider, oauth_id } = user;
+  const { email, displayName, oauth_provider, oauth_id, profile_photo } = user;
   try {
     const result = await db.query("SELECT * from users WHERE user_email =$1", [
       email,
@@ -14,9 +14,17 @@ export async function profileGoogleUser(user) {
 
     if (result.rows.length === 0) {
       const newUser = await db.query(
-        "INSERT INTO users(user_email, user_name, oauth_provider, oauth_id) VALUES ($1, $2, $3, $4)",
+        "INSERT INTO users(user_email, user_name, oauth_provider, oauth_id) VALUES ($1, $2, $3, $4) RETURNING user_id",
         [email, displayName, oauth_provider, oauth_id]
       );
+      const newUser_id = newUser.rows[0].user_id;
+
+      // --- INSERT INTO USERS PROFILE TABLE ---
+      await db.query(
+        "INSERT INTO users_profile(user_id, photo_url) VALUES ($1, $2)",
+        [newUser_id, profile_photo]
+      );
+
       return newUser.rows[0];
     } else {
       return result.rows[0];
@@ -26,6 +34,7 @@ export async function profileGoogleUser(user) {
   }
 }
 
+// Verify email and password for local passport strategy
 export async function verifyUser(email, password) {
   try {
     const result = await db.query("SELECT * FROM users WHERE user_email = $1", [
@@ -90,11 +99,12 @@ export async function createNewUser(req, res, next) {
   }
 }
 
+// Get profile photo of user
 export async function getProfilePhoto(req, res) {
   try {
     const input = req.body["user_id"];
     const data = await db.query(
-      "SELECT photo FROM users_profile WHERE user_id = $1",
+      "SELECT photo_url FROM users_profile WHERE user_id = $1",
       [input]
     );
     if (data.rows.length !== 0) {
@@ -110,6 +120,7 @@ export async function getProfilePhoto(req, res) {
   }
 }
 
+// Check if client input user already exists
 export async function checkUserExists(req, res) {
   try {
     const input = req.body["user_email"];

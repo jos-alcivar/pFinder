@@ -47,6 +47,7 @@ export const InputText = (props) => {
         disabled={props.disabled}
         required={props.required}
         autoComplete="on"
+        minLength={props.minLength}
       />
       {suggestions.length > 0 && (
         <ul className="suggestions-list">
@@ -63,6 +64,7 @@ export const InputText = (props) => {
 
 InputText.propTypes = {
   disabled: PropTypes.bool,
+  minLength: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,

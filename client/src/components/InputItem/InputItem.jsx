@@ -15,6 +15,7 @@ export const InputItem = (props) => {
         disabled={props.disabled}
         required={props.required}
         options={props.options}
+        minlength={props.minLength}
       />
     </div>
   );
@@ -23,6 +24,7 @@ export const InputItem = (props) => {
 InputItem.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
+  minLength: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.string),
