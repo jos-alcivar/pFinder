@@ -99,27 +99,6 @@ export async function createNewUser(req, res, next) {
   }
 }
 
-// Get profile photo of user
-export async function getProfilePhoto(req, res) {
-  try {
-    const input = req.body["user_id"];
-    const data = await db.query(
-      "SELECT photo_url FROM users_profile WHERE user_id = $1",
-      [input]
-    );
-    if (data.rows.length !== 0) {
-      res.send(data.rows[0]);
-    } else {
-      res.status(404).send({ error: "No photo found in the database." });
-    }
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send({ error: "An error occurred while retrieving the photo." });
-  }
-}
-
 // Check if client input user already exists
 export async function checkUserExists(req, res) {
   try {
@@ -137,5 +116,75 @@ export async function checkUserExists(req, res) {
   } catch (err) {
     console.error("Error executing query:", err);
     throw err;
+  }
+}
+
+// Get profile photo of user
+export async function getProfilePhoto(req, res) {
+  const { user_uuid } = req.params;
+  let photoBuffer;
+
+  try {
+    // Query to fetch the photo binary from the database
+    const data = await db.query(
+      "SELECT users_profile.photo, users_profile.photo_url, users.user_uuid FROM users_profile JOIN users ON users_profile.user_id = users.user_id WHERE users.user_uuid = $1",
+      [user_uuid]
+    );
+
+    if (data.rows.length !== 0) {
+      const result = data.rows[0];
+      if (result["photo"]) {
+        photoBuffer = result.photo;
+      } else {
+        photoBuffer = result.photo_url;
+      }
+
+      res.setHeader("Content-Type", "image/png");
+      res.send(photoBuffer); // Send the binary image data
+    } else {
+      // If no photo found, return a 404
+      res.status(404).send({ error: "No photo found in the database." });
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .send({ error: "An error occurred while retrieving the photo." });
+  }
+}
+
+// Upload Profile Photo
+export async function UploadProfilePhoto(req, res) {
+  let photoQuery;
+  const photoBuffer = req.file.buffer;
+  const { user_id } = req.body; // Retrieve user ID from form data
+
+  try {
+    // Check if an entry already exists for the user_id
+    const checkUserQuery =
+      "SELECT user_id FROM users_profile WHERE user_id = $1";
+    const userCheckResult = await db.query(checkUserQuery, [user_id]);
+
+    if (userCheckResult.rows.length > 0) {
+      // If an entry exists, update the photo for the user
+      const updatePhotoQuery =
+        "UPDATE users_profile SET photo = $1 WHERE user_id = $2 RETURNING photo";
+      photoQuery = await db.query(updatePhotoQuery, [photoBuffer, user_id]);
+      console.log("Photo updated successfully");
+    } else {
+      // If no entry exists, insert a new entry
+      const insertPhotoQuery =
+        "INSERT INTO users_profile (user_id, photo) VALUES ($1, $2) RETURNING photo";
+      photoQuery = await db.query(insertPhotoQuery, [user_id, photoBuffer]);
+      console.log("Photo created successfully");
+    }
+    // GET photo value from database
+    const photoResult = photoQuery.rows[0];
+
+    res.setHeader("Content-Type", "image/png");
+    res.send(photoResult.photo); // Send the binary image data
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to upload or update photo" });
   }
 }

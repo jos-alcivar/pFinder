@@ -1,14 +1,13 @@
-/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { OptionCircle } from "../components/OptionCircle";
 
 export function DateRangeOptions({ dateRange, setDateRange }) {
-  // Set "ALL" as the default selected option when the component mounts
+  // Set "1ML" as the default selected option when the component mounts
   useEffect(() => {
     setDateRange((prevOptions) =>
       prevOptions.map((opt) =>
-        opt.label.toUpperCase() === "ALL"
+        opt.label.toUpperCase() === "1M"
           ? { ...opt, type: "selected" }
           : { ...opt, type: "unselected" }
       )

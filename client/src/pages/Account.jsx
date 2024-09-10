@@ -1,26 +1,13 @@
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../layout/Header";
 import TabBar from "../layout/TapBar";
 import { useUser } from "../hooks/useUser";
-import { fetchImageProfile } from "../utils/profile.helpers";
+
 import "./Account.css";
 
 function Account() {
+  const navigate = useNavigate();
   const { user } = useUser();
-  const [profileImage, setProfileImage] = useState(null);
-
-  useEffect(() => {
-    const loadProfileImage = async () => {
-      const result = await fetchImageProfile(user.user_id);
-      if (result) {
-        setProfileImage(result.photo_url);
-      }
-    };
-
-    if (user.user_id) {
-      loadProfileImage();
-    }
-  }, [user.user_id]);
 
   return (
     <div className="app-ctn">
@@ -30,22 +17,27 @@ function Account() {
           <div className="account-ctn">
             <div className="profile-ctn">
               <div className="image-ctn">
-                {profileImage && (
-                  <img
-                    className="photo-profile"
-                    src={profileImage}
-                    width={"96px"}
-                    height={"96px"}
-                  />
-                )}
+                <img
+                  className="photo-profile"
+                  src={`http://localhost:3000/user/${user.user_uuid}/photo`}
+                  width={"96px"}
+                  height={"96px"}
+                />
               </div>
               <div className="text-profile">{user.user_name}</div>
             </div>
             <div className="menu-ctn">
-              <div className="label-text-main">Profile</div>
-              {/* <div className="label-text-main">Notifications</div>
-              <div className="label-text-main">Feedback</div> */}
+              <a
+                className="label-text-main"
+                onClick={() => navigate("/edit-profile")}
+              >
+                Profile
+              </a>
+              {/* 
+              <div className="label-text-main">Notifications</div>
+              <div className="label-text-main">Feedback</div> 
               <div className="label-text-main">Account</div>
+              */}
             </div>
             <div className="btn-row">
               <form action="http://localhost:3000/auth/logout" method="GET">

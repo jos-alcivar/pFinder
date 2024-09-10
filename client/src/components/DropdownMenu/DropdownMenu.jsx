@@ -38,6 +38,12 @@ function reducer(state, action) {
           : [],
         isSelectAllChecked: action.payload.isChecked,
       };
+    case "CLEAR_ALL":
+      return {
+        ...state,
+        tempSelectedOptions: [],
+        isSelectAllChecked: false,
+      };
     case "APPLY_CHANGES":
       return {
         ...state,
@@ -105,6 +111,10 @@ export const DropdownMenu = ({
     });
   };
 
+  const handleClearAll = () => {
+    dispatch({ type: "CLEAR_ALL" });
+  };
+
   const applyChanges = () => {
     dispatch({
       type: "APPLY_CHANGES",
@@ -154,26 +164,33 @@ export const DropdownMenu = ({
         <div className="dropdown-menu-ctn">
           <div className="search-ctn">
             <div className="search-bar">
-              <input
-                type="search"
-                className="search-text"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
+              <div className="search-wrapper">
+                <input
+                  type="search"
+                  className="search-text"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+              </div>
             </div>
-            <label className="option-item">
-              <input
-                type="checkbox"
-                className="input-check"
-                value="select all"
-                checked={state.isSelectAllChecked}
-                onChange={handleSelectAllChange}
-              />
-              <span className="input-txt">
-                {state.isSelectAllChecked ? "Deselect All" : "Select All"}
-              </span>
-            </label>
+            <div className="actions-ctn">
+              <label className="option-item">
+                <input
+                  type="checkbox"
+                  className="input-check"
+                  value="select all"
+                  checked={state.isSelectAllChecked}
+                  onChange={handleSelectAllChange}
+                />
+                <span className="select-all">
+                  {state.isSelectAllChecked ? "Deselect All" : "Select All"}
+                </span>
+              </label>
+              <div onClick={handleClearAll} className="clear-all">
+                <span>Clear All</span>
+              </div>
+            </div>
           </div>
           <div className="option-menu-ctn">
             <div className="option-menu">

@@ -12,7 +12,7 @@ import { readCSVFile } from "./csv.reader.js";
 
 export const readAndProcessCSV = async () => {
   try {
-    const filePath = "../local/db/job_listing_formated.csv";
+    const filePath = "../local/db/job_listings.csv";
     const results = await readCSVFile(filePath);
 
     for (const row of results) {

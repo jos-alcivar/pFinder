@@ -1,14 +1,27 @@
 import PropTypes from "prop-types";
-import { Add, Account, Jobs, Logo, Report, Search } from "../CustomIcons";
+import {
+  Post,
+  Account,
+  Jobs,
+  Logo,
+  Report,
+  Search,
+  Clear,
+  Edit,
+  Add,
+} from "../CustomIcons";
 import "./style.css";
 
 const icons = {
   account: Account,
   jobs: Jobs,
   logo: Logo,
-  posts: Add,
+  posts: Post,
   reports: Report,
   search: Search,
+  add: Add,
+  clear: Clear,
+  edit: Edit,
 };
 
 const CustomIconLoader = ({ label, size, fill, stroke }) => {

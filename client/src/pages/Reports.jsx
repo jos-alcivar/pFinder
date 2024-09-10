@@ -16,6 +16,7 @@ function Reports() {
   const [filterOptions, setFilterOptions] = useFilterOptions();
   const [dateRange, setDateRange] = useDateRange(); // Manage date range state
   const [postList, setPostList] = useState([]);
+  const [isDateRangeReady, setIsDateRangeReady] = useState(false);
 
   // Function to load posts
   const loadPosts = useCallback(async () => {
@@ -31,7 +32,7 @@ function Reports() {
     }));
   };
 
-  // Log the selected OptionCircle and trigger loading posts
+  // Handle changes in dateRange first
   useEffect(() => {
     const selectedOption = dateRange.find(
       (option) => option.type === "selected"
@@ -41,13 +42,16 @@ function Reports() {
         ...prevData,
         dateIndex: selectedOption.id || dateRange.indexOf(selectedOption),
       }));
+      setIsDateRangeReady(true); // Mark that dateRange is processed
     }
-  }, [dateRange]); // Only depend on dateRange
+  }, [dateRange]);
 
-  // Load posts when dropdownData or dateRange changes
+  // Load posts when dropdownData changes, but only after dateRange is ready
   useEffect(() => {
-    loadPosts();
-  }, [dropdownData, loadPosts]); // Depend on dropdownData and loadPosts
+    if (isDateRangeReady) {
+      loadPosts();
+    }
+  }, [dropdownData, isDateRangeReady, loadPosts]);
 
   function topScore(postList, filter) {
     if (!Array.isArray(postList) || typeof filter !== "string") {

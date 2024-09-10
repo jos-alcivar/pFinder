@@ -8,6 +8,7 @@ import Post from "./pages/Post";
 import Register from "./pages/Register";
 import Reports from "./pages/Reports";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Routes>
       </BrowserRouter>
     </>

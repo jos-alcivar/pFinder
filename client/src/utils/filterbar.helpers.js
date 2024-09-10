@@ -38,10 +38,13 @@ export async function applyFilter(dropdownData) {
       interval = 30;
       break;
     case 2:
-      interval = 90;
+      interval = 60;
       break;
     case 3:
-      interval = 365;
+      interval = 90;
+      break;
+    case 4:
+      interval = 0;
       break;
     default:
       interval = 0;
