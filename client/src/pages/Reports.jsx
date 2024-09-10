@@ -7,7 +7,7 @@ import { CardTopScore } from "../components/CardTopScore";
 import { DateRangeOptions } from "../forms/DateOptions";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
-import TabBar from "../layout/TapBar";
+import TapBar from "../layout/TapBar";
 import "./Reports.css";
 
 function Reports() {
@@ -154,7 +154,7 @@ function Reports() {
         </div>
       </div>
 
-      <TabBar reports={"selected"} />
+      <TapBar reports={"selected"} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import Header from "../layout/Header";
-import TabBar from "../layout/TapBar";
+import TapBar from "../layout/TapBar";
 import CustomIconLoader from "../components/CustomIconLoader/CustomIconLoader";
 
 import "./EditProfile.css";
@@ -10,18 +10,66 @@ import "./EditProfile.css";
 function EditProfile() {
   const { user } = useUser();
   const navigate = useNavigate();
-  const fileInputRef = useRef(null); // Ref to the hidden file input
+  const fileInputRef = useRef(null);
   const [profilePhoto, setProfilePhoto] = useState(
     `http://localhost:3000/user/${user.user_uuid}/photo`
-  ); // Initialize with current photo URL
+  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Handle file change event when a user selects a photo
+  // Default values for each field
+  const defaultValues = {
+    country: "Country",
+    state: "State/Province",
+    city: "City",
+    postalCode: "Postal Code",
+    phoneNumber: "Phone Number",
+  };
+
+  // States for input fields, edit modes, and icon state
+  const [isEditing, setIsEditing] = useState({
+    country: false,
+    state: false,
+    city: false,
+    postalCode: false,
+    phoneNumber: false,
+  });
+
+  const [values, setValues] = useState({
+    country: "",
+    state: "",
+    city: "",
+    postalCode: "",
+    phoneNumber: "",
+  });
+
+  const [iconLabels, setIconLabels] = useState({
+    country: "add",
+    state: "add",
+    city: "add",
+    postalCode: "add",
+    phoneNumber: "add",
+  });
+
   const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        // 2MB limit
+        alert("File size exceeds 2MB");
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        alert("Invalid file type");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("photo", file);
-      formData.append("user_id", user.user_id); // Include the user ID in the form data
+      formData.append("user_id", user.user_id);
+
+      setLoading(true);
+      setError(null);
 
       try {
         const response = await fetch(
@@ -37,28 +85,44 @@ function EditProfile() {
         }
 
         const blob = await response.blob();
-
-        // Create an object URL for the binary data
         const imageUrl = URL.createObjectURL(blob);
-
-        //console.log(result.photo);
-        setProfilePhoto(imageUrl); // Update the profile photo URL
+        setProfilePhoto(imageUrl);
         alert("Photo uploaded successfully");
       } catch (error) {
         console.error("Failed to upload photo:", error);
-        alert("Failed to upload photo. Please try again.");
+        setError("Failed to upload photo. Please try again.");
+      } finally {
+        setLoading(false);
       }
     }
   };
 
-  // Handle click event to trigger hidden file input
   const handleClickUploader = () => {
-    fileInputRef.current.click(); // Trigger the hidden file input click
+    fileInputRef.current.click();
   };
 
-  // Handle back button click
   const handleBackClick = () => {
-    navigate(-1); // Navigate back to the previous page
+    navigate(-1);
+  };
+
+  // Handle the edit click for each field
+  const handleEditClick = (field) => {
+    setIsEditing({ ...isEditing, [field]: true });
+  };
+
+  // Handle input change
+  const handleInputChange = (name, value) => {
+    setValues({ ...values, [name]: value });
+  };
+
+  // Handle save click, update the icon, and check for empty input
+  const handleSaveClick = (field) => {
+    if (values[field].length === 0) {
+      setIconLabels({ ...iconLabels, [field]: "add" }); // Reset icon to "add" if input is empty
+    } else {
+      setIconLabels({ ...iconLabels, [field]: "edit" }); // Change icon to "edit" if input is valid
+    }
+    setIsEditing({ ...isEditing, [field]: false });
   };
 
   return (
@@ -71,15 +135,14 @@ function EditProfile() {
               <div className="image-ctn">
                 <img
                   className="photo-profile"
-                  src={profilePhoto} // Display the updated photo
+                  src={profilePhoto}
                   alt="Profile"
                   width={"96px"}
                   height={"96px"}
                 />
               </div>
               <div className="text-upload" onClick={handleClickUploader}>
-                Upload photo
-                {/* Hidden file input */}
+                {loading ? "Uploading..." : "Upload photo"}
                 <input
                   type="file"
                   accept="image/*"
@@ -88,31 +151,52 @@ function EditProfile() {
                   onChange={handlePhotoChange}
                 />
               </div>
+              {error && <div className="error-message">{error}</div>}
             </div>
+
             <div className="profile-menu-ctn">
-              <div className="label-text-main">
-                <CustomIconLoader label={"add"} size="20px"></CustomIconLoader>
-                <span>Country</span>
-              </div>
-              <div className="label-text-main">
-                <CustomIconLoader label={"add"} size="20px"></CustomIconLoader>
-                <span>State/Province</span>
-              </div>
-              <div className="label-text-main">
-                <CustomIconLoader label={"add"} size="20px"></CustomIconLoader>
-                <span>City</span>
-              </div>
-              <hr className="separator" />
-              <div className="label-text-main">
-                <CustomIconLoader label={"add"} size="20px"></CustomIconLoader>
-                <span>Postal Code</span>
-              </div>
-              <hr className="separator" />
-              <div className="label-text-main">
-                <CustomIconLoader label={"add"} size="20px"></CustomIconLoader>
-                <span>Phone Number</span>
-              </div>
+              {["country", "state", "city", "postalCode", "phoneNumber"].map(
+                (field) => (
+                  <div key={field} className="label-text-main">
+                    <CustomIconLoader label={iconLabels[field]} size="20px" />
+
+                    {!isEditing[field] ? (
+                      <>
+                        <span
+                          className="user-label"
+                          onClick={() => handleEditClick(field)}
+                        >
+                          {defaultValues[`${field}`]}:
+                        </span>
+                        {/* Display the user input if it's not empty */}
+                        {values[field] && (
+                          <span className="user-text">{values[field]}</span>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="text"
+                          className="input-text"
+                          name={field}
+                          onChange={(e) =>
+                            handleInputChange(e.target.name, e.target.value)
+                          }
+                          value={values[field]}
+                        />
+                        <div
+                          className="save-btn"
+                          onClick={() => handleSaveClick(field)}
+                        >
+                          Save
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )
+              )}
             </div>
+
             <div className="btn-row">
               <button onClick={handleBackClick} className="back-btn">
                 Back
@@ -121,8 +205,7 @@ function EditProfile() {
           </div>
         </div>
       </div>
-
-      <TabBar account={"selected"} />
+      <TapBar account={"selected"} />
     </div>
   );
 }

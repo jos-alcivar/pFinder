@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { TabItem } from "../components/TabItem";
 import { useNavigate } from "react-router-dom";
 
-function TabBar(props) {
+function TapBar(props) {
   const navigate = useNavigate();
 
   function clickToJobs(label) {
@@ -54,9 +54,9 @@ function TabBar(props) {
   );
 }
 
-export default TabBar;
+export default TapBar;
 
-TabBar.propTypes = {
+TapBar.propTypes = {
   account: PropTypes.string,
   jobs: PropTypes.string,
   posts: PropTypes.string,

@@ -19,7 +19,7 @@ import {
   fetchAndSetWorkmodel,
 } from "../utils/form.helpers";
 import Header from "../layout/Header";
-import TabBar from "../layout/TapBar";
+import TapBar from "../layout/TapBar";
 import "./Post.css";
 
 function Post() {
@@ -145,7 +145,7 @@ function Post() {
           />
         </div>
       </div>
-      <TabBar posts={"selected"} />
+      <TapBar posts={"selected"} />
     </div>
   );
 }

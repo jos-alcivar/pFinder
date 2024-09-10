@@ -4,7 +4,7 @@ import { applyFilter } from "../utils/filterbar.helpers";
 import { CardPostB } from "../components/CardPostB";
 import { FilterOptions } from "../forms/FilterOptions";
 import Header from "../layout/Header";
-import TabBar from "../layout/TapBar";
+import TapBar from "../layout/TapBar";
 import "./Jobs.css";
 
 function Jobs() {
@@ -110,7 +110,7 @@ function Jobs() {
           </div>
         </div>
       </div>
-      <TabBar jobs={"selected"} />
+      <TapBar jobs={"selected"} />
     </div>
   );
 }

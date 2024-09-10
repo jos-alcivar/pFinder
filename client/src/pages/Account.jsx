@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../layout/Header";
-import TabBar from "../layout/TapBar";
+import TapBar from "../layout/TapBar";
 import { useUser } from "../hooks/useUser";
 
 import "./Account.css";
@@ -56,7 +56,7 @@ function Account() {
         </div>
       </div>
 
-      <TabBar account={"selected"} />
+      <TapBar account={"selected"} />
     </div>
   );
 }
