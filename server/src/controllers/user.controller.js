@@ -8,9 +8,10 @@ env.config();
 export async function profileGoogleUser(user) {
   const { email, displayName, oauth_provider, oauth_id, profile_photo } = user;
   try {
-    const result = await db.query("SELECT * from users WHERE user_email =$1", [
-      email,
-    ]);
+    const result = await db.query(
+      "SELECT *, users_profile.is_admin from users JOIN users_profile ON users.user_id = users_profile.user_id WHERE user_email =$1",
+      [email]
+    );
 
     if (result.rows.length === 0) {
       const newUser = await db.query(
@@ -37,9 +38,10 @@ export async function profileGoogleUser(user) {
 // Verify email and password for local passport strategy
 export async function verifyUser(email, password) {
   try {
-    const result = await db.query("SELECT * FROM users WHERE user_email = $1", [
-      email,
-    ]);
+    const result = await db.query(
+      "SELECT *, users_profile.is_admin from users JOIN users_profile ON users.user_id = users_profile.user_id WHERE user_email =$1",
+      [email]
+    );
 
     if (result.rows.length === 0) {
       return false; // User not found
@@ -247,6 +249,7 @@ export async function updateProfileInfo(req, res) {
         if (checkUserInfo.rows.length > 0) {
           const insertInfoQuery = `UPDATE users_info 
           SET first_name = $1, last_name = $2, gender = $3, pronouns = $4, jobtitle_name = $5, website =$6, birth_date = $7
+          WHERE user_id = $8
           RETURNING first_name, last_name, gender, pronouns, jobtitle_name, website, birth_date`;
 
           profileInfo = await db.query(insertInfoQuery, [
@@ -257,6 +260,7 @@ export async function updateProfileInfo(req, res) {
             jobtitle_name,
             website,
             birth_date.length > 0 ? birth_date : null,
+            user_id,
           ]);
 
           console.log("Info updated successfully");

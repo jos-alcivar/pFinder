@@ -15,9 +15,9 @@ const ProtectedRoute = ({ children }) => {
     axios
       .get("http://localhost:3000/auth/status", { withCredentials: true })
       .then((response) => {
-        console.log(
-          `User: ${response.data.user.user_email} Authenticated: ${response.data.authenticated}`
-        );
+        // console.log(
+        //   `User: ${response.data.user.user_email} Authenticated: ${response.data.authenticated} isAdmin: ${response.data.user.is_admin}`
+        // );
         setUser(response.data.user); // Set the user in the context
         setAuthState({
           authenticated: response.data.authenticated,

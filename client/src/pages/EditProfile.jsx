@@ -53,10 +53,7 @@ function EditProfile() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        console.log("Fetching user data...");
         const userData = await getUserInfo(user.user_uuid);
-
-        console.log("User data received:", userData);
 
         if (userData) {
           setFields((prevFields) => {

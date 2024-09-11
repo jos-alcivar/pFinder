@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostForm } from "../forms/PostForm";
+import { useUser } from "../hooks/useUser";
 import { useCity } from "../hooks/useCity";
 import { useCompany } from "../hooks/useCompany";
 import { useCountry } from "../hooks/useCountry";
@@ -23,6 +24,7 @@ import TapBar from "../layout/TapBar";
 import "./Post.css";
 
 function Post() {
+  const { user } = useUser();
   const [cities, setCities] = useCity();
   const [companies, setCompanies] = useCompany();
   const [countries] = useCountry();
@@ -132,7 +134,13 @@ function Post() {
           <PostForm
             post={post}
             handleChange={handleChange}
-            handleSubmitButton={handleSubmitButton}
+            handleSubmitButton={
+              user.is_admin
+                ? handleSubmitButton
+                : () => {
+                    alert("We're sorry, only administrators can post for now");
+                  }
+            }
             experience={experience}
             setExperience={setExperience}
             model={model}
