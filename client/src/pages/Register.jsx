@@ -4,6 +4,7 @@ import Header from "../layout/Header";
 import { ButtonSSO } from "../components/ButtonSSO";
 import { InputItem } from "../components/InputItem";
 import "./Register.css";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function Register() {
   const [userExists, setUserExists] = useState(false);
@@ -60,7 +61,7 @@ function Register() {
           <div>
             <form
               className="register-ctn"
-              action="http://localhost:3000/user/register"
+              action={`${apiBaseUrl}/user/register`}
               method="POST"
               onSubmit={handleRegister}
             >

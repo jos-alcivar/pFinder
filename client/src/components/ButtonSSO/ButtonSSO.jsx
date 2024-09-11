@@ -2,9 +2,11 @@ import PropTypes from "prop-types";
 import googleLogo from "../../assets/img/logo-google.png";
 import "./style.css";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 export function ButtonSSO({ label }) {
   const handleLogin = () => {
-    window.location.href = "http://localhost:3000/auth/google";
+    window.location.href = `${apiBaseUrl}/auth/google`;
   };
   return (
     <a className="sso-btn" role="button" onClick={handleLogin}>

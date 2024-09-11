@@ -1,7 +1,9 @@
 // filterbar.helpers.js
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 export async function fetchExperienceLevel() {
   try {
-    const response = await fetch("http://localhost:3000/experience-level");
+    const response = await fetch(`${apiBaseUrl}/experience-level`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -15,7 +17,7 @@ export async function fetchExperienceLevel() {
 
 export async function fetchWorkModel() {
   try {
-    const response = await fetch("http://localhost:3000/work-model");
+    const response = await fetch(`${apiBaseUrl}/work-model`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -51,7 +53,7 @@ export async function applyFilter(dropdownData) {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/filter-job-post-list", {
+    const response = await fetch(`${apiBaseUrl}/filter-job-post-list`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -22,6 +22,7 @@ import {
 import Header from "../layout/Header";
 import TapBar from "../layout/TapBar";
 import "./Post.css";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function Post() {
   const { user } = useUser();
@@ -35,7 +36,6 @@ function Post() {
   const [post, setPost] = usePostState();
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
-
   const calculateProgress = useCallback(() => {
     const hasSelectedExp = experience.some((exp) => exp.type === "selected");
     const countA = post.jobtitle_name.length > 0 && hasSelectedExp ? 1 : 0;
@@ -105,7 +105,7 @@ function Post() {
         const updatedPost = { ...prevPost, ...options };
         console.log("Form data updated:", updatedPost);
 
-        fetch("http://localhost:3000/new-post", {
+        fetch(`${apiBaseUrl}/new-post`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedPost),

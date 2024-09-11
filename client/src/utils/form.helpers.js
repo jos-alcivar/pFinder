@@ -1,7 +1,8 @@
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 // Fetch the Job Title ID and update the post state
 export async function fetchAndSetJobTitle(jobtitleSelected, setPost) {
   try {
-    const response = await fetch("http://localhost:3000/job-title-id", {
+    const response = await fetch(`${apiBaseUrl}/job-title-id`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ jobtitle: jobtitleSelected }),
@@ -30,7 +31,7 @@ export async function fetchAndSetCountry(
   setProvinces
 ) {
   try {
-    const response = await fetch("http://localhost:3000/country-id", {
+    const response = await fetch(`${apiBaseUrl}/country-id`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country: countrySelected }),
@@ -47,7 +48,7 @@ export async function fetchAndSetCountry(
 
       // Fetch states based on the updated country_id
       const statesResponse = await fetch(
-        "http://localhost:3000/states&provinces-by-country",
+        `${apiBaseUrl}/states&provinces-by-country`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,7 +76,7 @@ export async function fetchAndSetCountry(
 // Fetch the State ID and update the post state, then fetch and set cities
 export async function fetchAndSetState(stateSelected, setPost, setCities) {
   try {
-    const response = await fetch("http://localhost:3000/state-id", {
+    const response = await fetch(`${apiBaseUrl}/state-id`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ state: stateSelected }),
@@ -91,14 +92,11 @@ export async function fetchAndSetState(stateSelected, setPost, setCities) {
       }));
 
       // Fetch states based on the updated country_id
-      const citiesResponse = await fetch(
-        "http://localhost:3000/cities-by-states",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ state_id: temp_id }),
-        }
-      );
+      const citiesResponse = await fetch(`${apiBaseUrl}/cities-by-states`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state_id: temp_id }),
+      });
       if (citiesResponse.ok) {
         const citiesData = await citiesResponse.json();
         const citiesList = citiesData.map((city) => city.city_name);
@@ -120,7 +118,7 @@ export async function fetchAndSetState(stateSelected, setPost, setCities) {
 // Fetch the City ID and update the post state, then fetch and set companies
 export async function fetchAndSetCity(citySelected, setPost, setCompanies) {
   try {
-    const response = await fetch("http://localhost:3000/city-id", {
+    const response = await fetch(`${apiBaseUrl}/city-id`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ city: citySelected }),
@@ -136,14 +134,11 @@ export async function fetchAndSetCity(citySelected, setPost, setCompanies) {
       }));
 
       // Fetch states based on the updated country_id
-      const companiesResponse = await fetch(
-        "http://localhost:3000/companies-by-city",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ city_id: temp_id }),
-        }
-      );
+      const companiesResponse = await fetch(`${apiBaseUrl}/companies-by-city`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ city_id: temp_id }),
+      });
       if (companiesResponse.ok) {
         const companiesData = await companiesResponse.json();
         const companiesList = companiesData.map(
@@ -167,7 +162,7 @@ export async function fetchAndSetCity(citySelected, setPost, setCompanies) {
 // Fetch the Company ID and update the post state
 export async function fetchAndSetCompany(companySelected, city_id, setPost) {
   try {
-    const response = await fetch("http://localhost:3000/company-id", {
+    const response = await fetch(`${apiBaseUrl}/company-id`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ company_name: companySelected, city_id: city_id }),
@@ -198,7 +193,7 @@ export async function fetchAndSetExperience(experience) {
   let selectedExp;
   try {
     const experienceResponse = await fetch(
-      "http://localhost:3000/experience-selected-ids",
+      `${apiBaseUrl}/experience-selected-ids`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -222,14 +217,11 @@ export async function fetchAndSetWorkmodel(workmodel) {
   let selectedMod;
 
   try {
-    const modelResponse = await fetch(
-      "http://localhost:3000/workmodel-selected-ids",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: workmodel }),
-      }
-    );
+    const modelResponse = await fetch(`${apiBaseUrl}/workmodel-selected-ids`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: workmodel }),
+    });
     if (modelResponse.ok) {
       selectedMod = await modelResponse.json();
     }

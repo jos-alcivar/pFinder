@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../hooks/useUser"; // Import the context
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 const ProtectedRoute = ({ children }) => {
   const { setUser } = useUser(); // Get setUser function from context
@@ -13,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/status", { withCredentials: true })
+      .get(`${apiBaseUrl}/auth/status`, { withCredentials: true })
       .then((response) => {
         // console.log(
         //   `User: ${response.data.user.user_email} Authenticated: ${response.data.authenticated} isAdmin: ${response.data.user.is_admin}`

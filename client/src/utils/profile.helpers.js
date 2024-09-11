@@ -1,15 +1,14 @@
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 export async function fetchImageProfile(user_id) {
   try {
-    const response = await fetch(
-      "http://localhost:3000/user/get-profile-photo",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: user_id,
-        }),
-      }
-    );
+    const response = await fetch(`${apiBaseUrl}/user/get-profile-photo`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: user_id,
+      }),
+    });
     if (response.ok) {
       const data = await response.json();
       return data;
@@ -27,7 +26,7 @@ export async function fetchImageProfile(user_id) {
 export async function checkUserExists(user_email, setUserExists) {
   let userExists;
   try {
-    const response = await fetch("http://localhost:3000/user/exists", {
+    const response = await fetch(`${apiBaseUrl}/user/exists`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_email: user_email }),
@@ -49,7 +48,7 @@ export async function checkUserExists(user_email, setUserExists) {
 
 export async function editUserInfo(user_uuid, userInfo) {
   try {
-    const response = await fetch("http://localhost:3000/user/edit-info", {
+    const response = await fetch(`${apiBaseUrl}/user/edit-info`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -80,9 +79,7 @@ export async function editUserInfo(user_uuid, userInfo) {
 
 export async function getUserInfo(user_uuid) {
   try {
-    const response = await fetch(
-      `http://localhost:3000/user/${user_uuid}/info`
-    );
+    const response = await fetch(`${apiBaseUrl}/user/${user_uuid}/info`);
 
     if (response.ok) {
       const data = await response.json();

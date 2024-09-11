@@ -7,14 +7,14 @@ import TapBar from "../layout/TapBar";
 import CustomIconLoader from "../components/CustomIconLoader/CustomIconLoader";
 
 import "./EditProfile.css";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function EditProfile() {
   const { user } = useUser();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-
   const [profilePhoto, setProfilePhoto] = useState(
-    `http://localhost:3000/user/${user.user_uuid}/photo`
+    `${apiBaseUrl}/user/${user.user_uuid}/photo`
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -110,7 +110,7 @@ function EditProfile() {
 
       try {
         const response = await fetch(
-          "http://localhost:3000/user/upload-profile-photo",
+          `${apiBaseUrl}/user/upload-profile-photo`,
           {
             method: "POST",
             body: formData,

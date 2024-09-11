@@ -4,11 +4,11 @@ import TapBar from "../layout/TapBar";
 import { useUser } from "../hooks/useUser";
 
 import "./Account.css";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function Account() {
   const navigate = useNavigate();
   const { user } = useUser();
-
   return (
     <div className="app-ctn">
       <Header title={"pFinder"} />
@@ -19,7 +19,7 @@ function Account() {
               <div className="image-ctn">
                 <img
                   className="photo-profile"
-                  src={`http://localhost:3000/user/${user.user_uuid}/photo`}
+                  src={`${apiBaseUrl}/user/${user.user_uuid}/photo`}
                   width={"96px"}
                   height={"96px"}
                 />
@@ -40,7 +40,7 @@ function Account() {
               */}
             </div>
             <div className="btn-row">
-              <form action="http://localhost:3000/auth/logout" method="GET">
+              <form action={`${apiBaseUrl}/auth/logout`} method="GET">
                 <button className="logout-btn">Logout</button>
               </form>
             </div>

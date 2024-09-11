@@ -3,6 +3,7 @@ import { ButtonSSO } from "../components/ButtonSSO";
 import { InputItem } from "../components/InputItem";
 
 import "./Login.css";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function Login() {
   return (
@@ -13,7 +14,7 @@ function Login() {
           <div>
             <form
               className="login-ctn"
-              action="http://localhost:3000/auth/login"
+              action={`${apiBaseUrl}/auth/login`}
               method="POST"
             >
               <InputItem
