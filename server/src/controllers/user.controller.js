@@ -153,8 +153,8 @@ export async function getProfilePhoto(req, res) {
   }
 }
 
-// Upload Profile Photo
-export async function UploadProfilePhoto(req, res) {
+// Upload/Update Profile Photo
+export async function updateProfilePhoto(req, res) {
   let photoQuery;
   const photoBuffer = req.file.buffer;
   const { user_id } = req.body; // Retrieve user ID from form data
@@ -186,5 +186,105 @@ export async function UploadProfilePhoto(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to upload or update photo" });
+  }
+}
+
+// Get Profile Info
+export async function getProfileInfo(req, res) {
+  const { user_uuid } = req.params;
+  let profileInfo;
+
+  try {
+    // Check if an entry already exists for the user_uuid
+    const dataQuery = `
+    SELECT
+      users_info.first_name, users_info.last_name, users_info.gender, users_info.pronouns, users_info.jobtitle_name, users_info.website, users_info.birth_date
+    FROM users
+    JOIN users_info ON users.user_id = users_info.user_id
+    WHERE users.user_uuid = $1`;
+
+    const data = await db.query(dataQuery, [user_uuid]);
+
+    if (data.rows.length > 0) {
+      res.send(data.rows[0]);
+    } else {
+      console.log("No user found");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to retrieve user info" });
+  }
+}
+
+// Create/Update Profile Info
+export async function updateProfileInfo(req, res) {
+  let profileInfo;
+  const {
+    user_uuid,
+    first_name,
+    last_name,
+    gender,
+    pronouns,
+    jobtitle_name,
+    website,
+    birth_date,
+  } = req.body;
+
+  try {
+    // Check if an entry already exists for the user_uuid
+    const checkUserUUID = await db.query(
+      "SELECT users.user_id FROM users WHERE users.user_uuid = $1",
+      [user_uuid]
+    );
+    if (checkUserUUID.rows.length > 0) {
+      const result = checkUserUUID.rows[0];
+      if (result.user_id) {
+        const user_id = result.user_id;
+        const checkUserInfo = await db.query(
+          "SELECT * FROM users_info WHERE users_info.user_id = $1",
+          [user_id]
+        );
+        if (checkUserInfo.rows.length > 0) {
+          const insertInfoQuery = `UPDATE users_info 
+          SET first_name = $1, last_name = $2, gender = $3, pronouns = $4, jobtitle_name = $5, website =$6, birth_date = $7
+          RETURNING first_name, last_name, gender, pronouns, jobtitle_name, website, birth_date`;
+
+          profileInfo = await db.query(insertInfoQuery, [
+            first_name,
+            last_name,
+            gender,
+            pronouns,
+            jobtitle_name,
+            website,
+            birth_date.length > 0 ? birth_date : null,
+          ]);
+
+          console.log("Info updated successfully");
+        } else {
+          const createtInfoQuery = `INSERT INTO users_info 
+          (user_id, first_name, last_name, gender, pronouns, jobtitle_name, website, birth_date) 
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+          RETURNING first_name, last_name, gender, pronouns, jobtitle_name, website, birth_date`;
+
+          profileInfo = await db.query(createtInfoQuery, [
+            user_id,
+            first_name,
+            last_name,
+            gender,
+            pronouns,
+            jobtitle_name,
+            website,
+            birth_date.length > 0 ? birth_date : null,
+          ]);
+
+          console.log("Info created successfully");
+        }
+      }
+    } else {
+      console.log("Invalid user");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to upload or update info" });
   }
 }

@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
+import { editUserInfo, getUserInfo } from "../utils/profile.helpers";
 import Header from "../layout/Header";
 import TapBar from "../layout/TapBar";
 import CustomIconLoader from "../components/CustomIconLoader/CustomIconLoader";
@@ -11,51 +12,90 @@ function EditProfile() {
   const { user } = useUser();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+
   const [profilePhoto, setProfilePhoto] = useState(
     `http://localhost:3000/user/${user.user_uuid}/photo`
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Default values for each field
-  const defaultValues = {
-    country: "Country",
-    state: "State/Province",
-    city: "City",
-    postalCode: "Postal Code",
-    phoneNumber: "Phone Number",
-  };
+  // Array of fields with default values
+  const fieldKeys = [
+    "first_name",
+    "last_name",
+    "gender",
+    "pronouns",
+    "jobtitle_name",
+    "website",
+    "birth_date",
+  ];
 
-  // States for input fields, edit modes, and icon state
-  const [isEditing, setIsEditing] = useState({
-    country: false,
-    state: false,
-    city: false,
-    postalCode: false,
-    phoneNumber: false,
-  });
+  // Consolidated state for form fields
+  const [fields, setFields] = useState(
+    fieldKeys.reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: {
+          value: "",
+          isEditing: false,
+          iconLabel: "add",
+          defaultValue: key
+            .replace(/_/g, " ") // Replace underscores with spaces
+            .replace(/\b\w/g, (char) => char.toUpperCase()) // Capitalize the first letter of each word
+            .replace(/^Jobtitle Name$/, "Job Title"), // Specific replacement for "Job Title Name"
+        },
+      }),
+      {}
+    )
+  );
 
-  const [values, setValues] = useState({
-    country: "",
-    state: "",
-    city: "",
-    postalCode: "",
-    phoneNumber: "",
-  });
+  // Fetch user data when the component mounts
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        console.log("Fetching user data...");
+        const userData = await getUserInfo(user.user_uuid);
 
-  const [iconLabels, setIconLabels] = useState({
-    country: "add",
-    state: "add",
-    city: "add",
-    postalCode: "add",
-    phoneNumber: "add",
-  });
+        console.log("User data received:", userData);
+
+        if (userData) {
+          setFields((prevFields) => {
+            const updatedFields = { ...prevFields };
+            fieldKeys.forEach((key) => {
+              if (userData[key]) {
+                updatedFields[key] = {
+                  ...updatedFields[key],
+                  value: userData[key], // Update value from fetched data
+                  iconLabel:
+                    userData[key].length > 0
+                      ? "edit"
+                      : updatedFields[key].iconLabel, // Set iconLabel to "edit" if value is not empty
+                };
+              }
+            });
+            return updatedFields;
+          });
+        } else {
+          console.error("No user data received.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    }
+
+    // Ensure user.user_uuid is available before fetching
+    if (user.user_uuid) {
+      fetchUserData();
+    } else {
+      console.error("user.user_uuid is not defined.");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.user_uuid]); // Dependency on `user.user_uuid` only
 
   const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        // 2MB limit
         alert("File size exceeds 2MB");
         return;
       }
@@ -105,26 +145,32 @@ function EditProfile() {
     navigate(-1);
   };
 
-  // Handle the edit click for each field
   const handleEditClick = (field) => {
-    setIsEditing({ ...isEditing, [field]: true });
+    setFields((prevFields) => ({
+      ...prevFields,
+      [field]: { ...prevFields[field], isEditing: true },
+    }));
   };
 
-  // Handle input change
   const handleInputChange = (name, value) => {
-    setValues({ ...values, [name]: value });
+    setFields((prevFields) => ({
+      ...prevFields,
+      [name]: { ...prevFields[name], value },
+    }));
   };
 
-  // Handle save click, update the icon, and stop event propagation
   const handleSaveClick = (field, e) => {
-    e.stopPropagation(); // Prevent triggering the div's click event
+    e.stopPropagation();
 
-    if (values[field].length === 0) {
-      setIconLabels({ ...iconLabels, [field]: "add" }); // Reset icon to "add" if input is empty
-    } else {
-      setIconLabels({ ...iconLabels, [field]: "edit" }); // Change icon to "edit" if input is valid
-    }
-    setIsEditing({ ...isEditing, [field]: false });
+    setFields((prevFields) => ({
+      ...prevFields,
+      [field]: {
+        ...prevFields[field],
+        isEditing: false,
+        iconLabel: prevFields[field].value.length === 0 ? "add" : "edit",
+      },
+    }));
+    editUserInfo(user.user_uuid, fields, setFields);
   };
 
   return (
@@ -144,7 +190,7 @@ function EditProfile() {
                 />
               </div>
               <div className="text-upload" onClick={handleClickUploader}>
-                {loading ? "Uploading..." : "Upload photo"}
+                {loading ? "Uploading..." : "Update photo"}
                 <input
                   type="file"
                   accept="image/*"
@@ -157,35 +203,38 @@ function EditProfile() {
             </div>
 
             <div className="profile-menu-ctn">
-              {["country", "state", "city", "postalCode", "phoneNumber"].map(
-                (field) => (
+              {fieldKeys.map((field, index) => (
+                <>
                   <div
                     key={field}
                     className="label-text-main"
-                    onClick={() => handleEditClick(field)} // Trigger edit mode on div click
+                    onClick={() => handleEditClick(field)}
                   >
-                    <CustomIconLoader label={iconLabels[field]} size="20px" />
-
-                    {!isEditing[field] ? (
+                    <CustomIconLoader
+                      label={fields[field].iconLabel}
+                      size="20px"
+                    />
+                    {!fields[field].isEditing ? (
                       <>
                         <span className="user-label">
-                          {defaultValues[`${field}`]}:
+                          {fields[field].defaultValue}:
                         </span>
-                        {/* Display the user input if it's not empty */}
-                        {values[field] && (
-                          <span className="user-text">{values[field]}</span>
+                        {fields[field].value && (
+                          <span className="user-text">
+                            {fields[field].value}
+                          </span>
                         )}
                       </>
                     ) : (
                       <>
                         <input
-                          type="text"
+                          type={field == "birthDate" ? "date" : "text"}
                           className="input-text"
                           name={field}
                           onChange={(e) =>
                             handleInputChange(e.target.name, e.target.value)
                           }
-                          value={values[field]}
+                          value={fields[field].value}
                         />
                         <div
                           className="save-btn"
@@ -196,8 +245,11 @@ function EditProfile() {
                       </>
                     )}
                   </div>
-                )
-              )}
+                  {index === 1 || index === 3 || index === 5 ? (
+                    <hr className="separator"></hr>
+                  ) : null}
+                </>
+              ))}
             </div>
 
             <div className="btn-row">
