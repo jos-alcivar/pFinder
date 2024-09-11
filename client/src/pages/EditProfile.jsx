@@ -115,8 +115,10 @@ function EditProfile() {
     setValues({ ...values, [name]: value });
   };
 
-  // Handle save click, update the icon, and check for empty input
-  const handleSaveClick = (field) => {
+  // Handle save click, update the icon, and stop event propagation
+  const handleSaveClick = (field, e) => {
+    e.stopPropagation(); // Prevent triggering the div's click event
+
     if (values[field].length === 0) {
       setIconLabels({ ...iconLabels, [field]: "add" }); // Reset icon to "add" if input is empty
     } else {
@@ -157,15 +159,16 @@ function EditProfile() {
             <div className="profile-menu-ctn">
               {["country", "state", "city", "postalCode", "phoneNumber"].map(
                 (field) => (
-                  <div key={field} className="label-text-main">
+                  <div
+                    key={field}
+                    className="label-text-main"
+                    onClick={() => handleEditClick(field)} // Trigger edit mode on div click
+                  >
                     <CustomIconLoader label={iconLabels[field]} size="20px" />
 
                     {!isEditing[field] ? (
                       <>
-                        <span
-                          className="user-label"
-                          onClick={() => handleEditClick(field)}
-                        >
+                        <span className="user-label">
                           {defaultValues[`${field}`]}:
                         </span>
                         {/* Display the user input if it's not empty */}
@@ -186,7 +189,7 @@ function EditProfile() {
                         />
                         <div
                           className="save-btn"
-                          onClick={() => handleSaveClick(field)}
+                          onClick={(e) => handleSaveClick(field, e)}
                         >
                           Save
                         </div>
